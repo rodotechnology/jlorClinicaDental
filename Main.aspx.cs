@@ -110,8 +110,8 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
         { "Gestión de citas","#","Administrador,Secretaria",Icon.BookOpenMark, new ArrayList()
             {
-               new ArrayList() { "Agenda", "Formularios/descargarRD.aspx", "", "fugue-drive-download", null},
-               new ArrayList() { "Asignación de cubículos", "Formularios/registroDocentes.aspx", "", "fugue-user--plus", null}
+               new ArrayList() { "Agenda", "Formularios/descargarRD.aspx", "", Icon.BookTabs, null},
+               new ArrayList() { "Asignación de cubículos", "Formularios/registroDocentes.aspx", "", Icon.HouseGo, null}
             }
         };
         //ooo
@@ -157,10 +157,10 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
         { "Gestión de consultas","#","Administrador,Medico",Icon.TableGear, new ArrayList()
             {
-                new ArrayList() { "Consultas", "Mantenimientos/manttoEscalafon.aspx", "", Icon.AwardStarAdd, null},
-                //new ArrayList() { "Instituciones/Empresas", "Mantenimientos/manttoInstitucionEmpresa.aspx", "", Icon.BuildingAdd, null},
+                new ArrayList() { "Consultas", "Mantenimientos/manttoEscalafon.aspx", "", Icon.HourglassGo, null}
+                /*new ArrayList() { "Instituciones/Empresas", "Mantenimientos/manttoInstitucionEmpresa.aspx", "", Icon.BuildingAdd, null},
                 new ArrayList() { "Nacionalidades", "Mantenimientos/manttoNacionalidad.aspx", "", Icon.FlagWhite, null},
-                new ArrayList() { "Universidades", "Mantenimientos/manttoUniversidades.aspx", "", Icon.HouseStar, null}
+                new ArrayList() { "Universidades", "Mantenimientos/manttoUniversidades.aspx", "", Icon.HouseStar, null}*/
             }
         };
         arbol.Add(nodo);
@@ -179,10 +179,10 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
             { "Gestión de pacientes","#","",Icon.UserGray, new ArrayList()
                 {
-                    new ArrayList() {"Traslado Administrativo a Docente", "http://isaf.ufg.edu.sv/planilla/Planilla/Mantenimiento/manttoTrasladoAdmToHc.aspx?sede=" + DamSede, "","fugue-home--arrow", null },
-                    //new ArrayList() {"Realizar","Planilla/Presentacion/accionPersonal.aspx","PLA.SEP","fugue-document",null},                    
-                    new ArrayList() {"Accion de personal docente", "http://isaf.ufg.edu.sv/planilla/Planilla/accionPerAdiHoras.aspx", "PLA.DEC", "fugue-document-attribute", null},
-                    new ArrayList() { "Anulación de Acciones Enviadas", "https://isaf.ufg.edu.sv/Planilla/Planilla/Presentacion/recepcionAccionesPersonales.aspx?idusuario=687", "", "fugue-clipboard-sign-out", null }
+                    new ArrayList() { "Expediente", "http://isaf.ufg.edu.sv/planilla/Planilla/Mantenimiento/manttoTrasladoAdmToHc.aspx?sede=" + DamSede, "",Icon.FolderTable, null }
+                    /*new ArrayList() {"Realizar","Planilla/Presentacion/accionPersonal.aspx","PLA.SEP","fugue-document",null},                    
+                    new ArrayList() {"Accion de personal docente", "http://isaf.ufg.edu.sv/planilla/Planilla/accionPerAdiHoras.aspx", "", "fugue-document-attribute", null},
+                    new ArrayList() { "Anulación de Acciones Enviadas", "https://isaf.ufg.edu.sv/Planilla/Planilla/Presentacion/recepcionAccionesPersonales.aspx?idusuario=687", "", "fugue-clipboard-sign-out", null }*/
                 }
             };
         arbol.Add(nodo);
@@ -191,22 +191,24 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
             { "Gestión de pagos","#","Administrador,Secretaria",Icon.Money, new ArrayList()
                 {
-                    new ArrayList() {"Reporte Accion Personal Docente", "http://isaf.ufg.edu.sv/planilla/Planilla/Reportes/rptAccionesMensualDocentesHC.aspx", "","fugue-clipboard-sign",null},
-                    new ArrayList() {"Reporte de Carga Academica", "http://isaf.ufg.edu.sv/planilla/Planilla/Decanatos/RepoCargaDocentesHC.aspx", "","fugue-blue-folder-open-table",null},
+                    new ArrayList() { "Orden de Pago", "http://isaf.ufg.edu.sv/planilla/Planilla/Reportes/rptAccionesMensualDocentesHC.aspx", "",Icon.MoneyDollar,null}
+                    /*new ArrayList() {"Reporte de Carga Academica", "http://isaf.ufg.edu.sv/planilla/Planilla/Decanatos/RepoCargaDocentesHC.aspx", "","fugue-blue-folder-open-table",null},
                     new ArrayList() {"Reporte de Marcaciones", "http://isaf.ufg.edu.sv/planilla/Planilla/Decanatos/RepoMarcacionesDocentesHC.aspx", "","fugue-fingerprint",null},
-                    new ArrayList() {"Resumen de Movimientos", "http://isaf.ufg.edu.sv/planilla/Planilla/Decanatos/ResumenMovimientos.aspx", "","fugue-chart-up-color",null}
+                    new ArrayList() {"Resumen de Movimientos", "http://isaf.ufg.edu.sv/planilla/Planilla/Decanatos/ResumenMovimientos.aspx", "","fugue-chart-up-color",null}*/
                 }
             };
         arbol.Add(nodo);
 
         //permiso SRD.CDSOFT
         nodo = new ArrayList()
-        { "Gestión de usuarios","#","Administrador",Icon.GroupGear, new ArrayList()
+        { "Gestión de sistema","#","Administrador",Icon.Computer, new ArrayList()
             {               
-                /*new ArrayList() { "Registro de usuarios", "Mantenimientos/manttoUsuario.aspx", "", Icon.UserAdd, null},
-                new ArrayList() { "Registro de grupos", "Mantenimientos/manttoGruposP.aspx", "", Icon.GroupAdd, null},
-                new ArrayList() { "Registro de permisos", "Mantenimientos/manttoPermisosP.aspx", "", Icon.LockAdd, null},
-                new ArrayList() { "Asignación de Centros", "Mantenimientos/manttoUsuarioUnidad.aspx", "", Icon.HouseLink, null}*/
+                new ArrayList() { "Registro de usuarios", "Mantenimientos/manttoUsuario.aspx", "", Icon.UserAdd, null},
+                new ArrayList() { "Registro de roles", "Mantenimientos/manttoGruposP.aspx", "", Icon.GroupAdd, null},
+                new ArrayList() { "Registro de Médicos", "Mantenimientos/manttoPermisosP.aspx", "", Icon.UserSuit, null},
+                new ArrayList() { "Registro de Servicios", "Mantenimientos/manttoUsuarioUnidad.aspx", "", Icon.SitemapColor, null},
+                new ArrayList() { "Registro de Especialidades", "Mantenimientos/manttoUsuarioUnidad.aspx", "", Icon.RosetteBlue, null},
+                new ArrayList() { "Registro de Variables", "Mantenimientos/manttoUsuarioUnidad.aspx", "", Icon.CogAdd, null}
             }
         };
         arbol.Add(nodo);
@@ -214,6 +216,9 @@ public partial class Main : System.Web.UI.Page
         //Nodo de Manual
         //nodo = new ArrayList() { "Manual de uso", "manual.html", "PLA.DEC", Icon.Help, null };
         nodo = new ArrayList() { "Manual de uso", "http://isaf.ufg.edu.sv/planilla/manual.html", "", Icon.Help, null };
+        arbol.Add(nodo);
+
+        nodo = new ArrayList() { "Cerrar sesión", "http://isaf.ufg.edu.sv/planilla/manual.html", "", Icon.DoorOut, null };
         arbol.Add(nodo);
 
         return arbol;

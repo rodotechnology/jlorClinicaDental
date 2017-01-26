@@ -89,16 +89,16 @@
                 <ext:Panel ID="PanelN" runat="server" Height="45" BodyStyle="background-image: url(Img/banner-superior.jpg)"
                     Region="North">
                     <Content>
-                        <div style="position: absolute; bottom: -2px; right: 10px">
+<%--                        <div style="position: absolute; bottom: -2px; right: 10px">
                             <img alt="Sistema de Recurso Docente" src="Assets/Img/letras_srd.png" />
                         </div>
                         <div style="position: absolute; bottom: -2px; left: 40px">
                             <img alt="Universidad Francisco Gavidia" src="Assets/Img/Logo Institucional-W.png" width="110" height="45" />
-                        </div>
+                        </div>--%>
                     </Content>
                 </ext:Panel>
                 <ext:TreePanel ID="optTree" runat="server" Region="West" Width="220" Title="Opciones"
-                    Icon="ChartOrganisation" Collapsible="true" Split="true" AutoScroll="true" UseArrows="true"
+                    Icon="ChartOrganisation" Collapsible="true" Split="true" UseArrows="true"
                     CollapseFirst="false" ContainerScroll="true" RootVisible="false">
                     <Listeners>
                         <%--<ItemClick Handler="loadPage(record.getId(),record.data.text,record.data.href);" />--%>
@@ -114,11 +114,81 @@
                 </ext:TreePanel>
                 <ext:TabPanel ID="mTabs" runat="server" Region="Center" ActiveTabIndex="0" Border="false" Layout="FitLayout">
                     <Items>
-                        <ext:Panel ID="Tab1" runat="server" Closable="false" Title="Información" Icon="Monitor"
-                            Layout="fit" Hidden="true">
+                        <ext:Panel ID="Tab1" runat="server" Closable="false" Title="Alertas" Icon="Monitor" Layout="fit">
                             <Content>
                                 <ext:Panel ID="Panel1" runat="server" Layout="fit">
                                     <Content>
+                                        <ext:Panel ID="DashBoardPanel" runat="server" Cls="items-view" ShrinkWrap="Height" Border="false">
+                                            <TopBar>
+                                                <ext:Toolbar ID="Toolbar2" runat="server" Flat="true">
+                                                    <Items>
+                                                        <ext:ToolbarFill />
+
+                                                        <ext:Button ID="btnDesplegarAll" runat="server" Icon="BulletPlus" Text="Desplegar todo">
+                                                            <Listeners>
+                                                                <Click Handler="#{Dashboard}.el.select('.group-header').removeCls('collapsed');" />
+                                                            </Listeners>
+                                                        </ext:Button>
+
+                                                        <ext:Button ID="btnOcultarAll" runat="server" Icon="BulletMinus" Text="Ocultar todo">
+                                                            <Listeners>
+                                                                <Click Handler="#{Dashboard}.el.select('.group-header').addCls('collapsed');" />
+                                                            </Listeners>
+                                                        </ext:Button>
+                                                        <ext:Button runat="server" ID="btnReload" Icon="ArrowRefresh" Text="Actualizar">
+                                                            <Listeners>
+                                                                <Click Handler="#{refreshAlerta}.stopAll();App.direct.updateGrupodAlertas();#{refreshAlerta}.startAll();" />
+                                                            </Listeners>
+                                                        </ext:Button>
+                                                        <ext:ToolbarSpacer ID="ToolbarSpacer1" runat="server" Width="30" />
+                                                    </Items>
+                                                </ext:Toolbar>
+                                            </TopBar>
+                                            <Items>
+                                                <ext:DataView
+                                                    ID="Dashboard"
+                                                    runat="server"
+                                                    SingleSelect="true"
+                                                    ItemSelector="div.group-header"
+                                                    EmptyText="<span id='noalerta'>No hay alertas....</span>">
+                                                    <Store>
+                                                        <ext:Store ID="strGrupoAlertas" runat="server">
+                                                            <Model>
+                                                                <ext:Model ID="Model1" runat="server">
+                                                                    <Fields>
+                                                                        <ext:ModelField Name="Title" />
+                                                                        <ext:ModelField Name="Items" Type="Object" />
+                                                                    </Fields>
+                                                                </ext:Model>
+                                                            </Model>
+                                                        </ext:Store>
+                                                    </Store>
+                                                    <Tpl ID="Tpl1" runat="server">
+                                                        <Html>
+                                                            <div id="items-ct">
+                                <tpl for=".">
+                                    <div class="group-header">
+                                        <h2><div>{Title}</div></h2>
+                                        <dl>
+                                            <tpl for="Items">                                                
+                                                <div id="{Id}" class="item-wrap"><img src="{Icon}"/>                                                    
+                                                    <div><H6>{Title}<span class="test"> ({total})</span></H6></div>
+                                                </div>                                                
+                                            </tpl>
+                                            <div style="clear:left"></div>
+                                         </dl>
+                                    </div>
+                                </tpl>
+                            </div>
+                                                        </Html>
+                                                    </Tpl>
+                                                    <Listeners>
+                                                        <%--<ItemClick Fn="itemClick" />--%>
+                                                        <Refresh Handler="this.el.select('.item-wrap').addClsOnOver('x-view-over');" Delay="100" />
+                                                    </Listeners>
+                                                </ext:DataView>
+                                            </Items>
+                                        </ext:Panel>
                                     </Content>
                                 </ext:Panel>
                             </Content>
