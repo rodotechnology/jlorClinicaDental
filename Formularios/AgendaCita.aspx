@@ -6,172 +6,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <script type="text/javascript">
-        var CompanyX = {
-            getCalendar: function () {
-                return CompanyX.CalendarPanel1;
-            },
-
-            getStore: function () {
-                return CompanyX.EventStore1;
-            },
-
-            getWindow: function () {
-                return CompanyX.EventWindow1;
-            },
-
-            viewChange: function (p, vw, dateInfo) {
-                var win = this.getWindow();
-
-                if (win) {
-                    win.hide();
-                }
-
-                if (dateInfo) {
-                    // will be null when switching to the event edit form, so ignore
-                    this.DatePicker1.setValue(dateInfo.activeDate);
-                    this.updateTitle(dateInfo.viewStart, dateInfo.viewEnd);
-                }
-            },
-
-            updateTitle: function (startDt, endDt) {
-                var msg = '',
-                    fmt = Ext.Date.format;
-
-                if (Ext.Date.clearTime(startDt).getTime() == Ext.Date.clearTime(endDt).getTime()) {
-                    msg = fmt(startDt, 'F j, Y');
-                } else if (startDt.getFullYear() == endDt.getFullYear()) {
-                    if (startDt.getMonth() == endDt.getMonth()) {
-                        msg = fmt(startDt, 'F j') + ' - ' + fmt(endDt, 'j, Y');
-                    } else {
-                        msg = fmt(startDt, 'F j') + ' - ' + fmt(endDt, 'F j, Y');
-                    }
-                } else {
-                    msg = fmt(startDt, 'F j, Y') + ' - ' + fmt(endDt, 'F j, Y');
-                }
-
-                this.Panel1.setTitle(msg);
-            },
-
-            setStartDate: function (picker, date) {
-                this.getCalendar().setStartDate(date);
-            },
-
-            rangeSelect: function (cal, dates, callback) {
-                this.record.show(cal, dates);
-                this.getWindow().on('hide', callback, cal, { single: true });
-            },
-
-            dayClick: function (cal, dt, allDay, el) {
-                //this.record.show.call(this, cal, {
-                //    StartDate: dt,
-                //    IsAllDay: allDay
-                //}, el);
-                Ext.getCmp('winRegistroCita').show();
-            },
-
-            record: {
-                addFromEventDetailsForm: function (win, rec) {
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was added');
-                },
-
-                add: function (win, rec) {
-                    win.hide();
-                    CompanyX.getStore().add(rec);
-                    CompanyX.getStore().sync();
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was added');
-                },
-
-                updateFromEventDetailsForm: function (win, rec) {
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was updated');
-                },
-
-                update: function (win, rec) {
-                    win.hide();
-                    rec.commit();
-                    CompanyX.getStore().sync();
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was updated');
-                },
-
-                removeFromEventDetailsForm: function (win, rec) {
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was deleted');
-                },
-
-                remove: function (win, rec) {
-                    CompanyX.getStore().remove(rec);
-                    CompanyX.getStore().sync();
-                    win.hide();
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was deleted');
-                },
-
-                edit: function (win, rec) {
-                    win.hide();
-                    rec.commit();
-                    CompanyX.getCalendar().showEditForm(rec);
-                },
-
-                resize: function (cal, rec) {
-                    rec.commit();
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was updated');
-                },
-
-                move: function (cal, rec) {
-                    rec.commit();
-                    CompanyX.ShowMsg('Event ' + rec.data.Title + ' was moved to ' + Ext.Date.format(rec.data.StartDate, 'F jS' + (rec.data.IsAllDay ? '' : ' \\a\\t g:i a')));
-                },
-
-                show: function (cal, rec, el) {
-                    CompanyX.getWindow().show(rec, el);
-                },
-
-                saveAll: function () {
-                    CompanyX.getStore().submitData({
-                        mappings: false
-                    });
-                }
-            }
-        };
-
-        function dui_ver(value) {
-            var x = value;
-            var resultado = 0;
-            resultado = x.charAt(0) * 9;
-            resultado = resultado + x.charAt(1) * 8;
-            resultado = resultado + x.charAt(2) * 7;
-            resultado = resultado + x.charAt(3) * 6;
-            resultado = resultado + x.charAt(4) * 5;
-            resultado = resultado + x.charAt(5) * 4;
-            resultado = resultado + x.charAt(6) * 3;
-            resultado = resultado + x.charAt(7) * 2;
-            resultado = resultado % 10;
-            resultado = 10 - resultado;
-            var a = parseInt(x.charAt(9));
-            if (!(resultado == a)) {
-                alert("el DUI este mal, favor revisarlo.");
-            }
-            else {
-                Ext.net.Notification.show({
-                    hideFx: {
-                        args: ['l', {}],
-                        fxName: 'ghost'
-                    },
-                    showFx: {
-                        args: ['l', {}],
-                        fxName: 'slideIn'
-                    },
-                    pinEvent: 'click',
-                    alignToCfg: {
-                        offset: [2, 0],
-                        position: 'l-r',
-                        el: Ext.net.getEl('winRegistroCita')
-                    },
-                    height: 350,
-                    html: "Es bueno el DUI XD",
-                    title: 'Varificado'
-                });
-            }
-        }
-    </script>
+    <script src="../Scripts/common.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -186,7 +21,7 @@
                 </ext:Model>
             </Model>
         </ext:Store>
-        <ext:Store runat="server" ID="strMedico">
+        <ext:Store runat="server" ID="strMedico" AutoLoad="false" OnReadData="strMedicoRefresh">
             <Model>
                 <ext:Model runat="server" IDProperty="id_medico">
                     <Fields>
@@ -195,6 +30,9 @@
                     </Fields>
                 </ext:Model>
             </Model>
+            <Listeners>
+                <Load Handler="#{cbxMedico}.setValue(#{cbxMedico}.store.getAt(0).get('id_medico'));" />
+            </Listeners>
         </ext:Store>
         <ext:Viewport runat="server" Layout="Border">
             <Items>
@@ -296,7 +134,7 @@
         </ext:EventWindow>
         <ext:Window runat="server" ID="winRegistroCita" Title="Nueva Cita" Icon="Add" Width="600" Height="430" Collapsible="true" BodyStyle="background-color: #fff;" BodyPadding="5" Hidden="false" Modal="true">
             <Items>
-                <ext:FormPanel runat="server" BodyPadding="5" DefaultAnchor="100%">
+                <ext:FormPanel runat="server" ID="frmPnlCita" BodyPadding="5" DefaultAnchor="100%">
                     <Items>
                         <ext:FieldContainer runat="server" Layout="HBoxLayout">
                             <Items>
@@ -323,6 +161,9 @@
                                     <span style="color: red; font-weight: bold" data-qtip="Required">*</span>
                                 </Html>
                             </AfterLabelTextTpl>
+                            <Listeners>
+                                <Select Handler="#{cbxMedico}.clearValue(); #{strMedico}.reload();" />
+                            </Listeners>
                         </ext:ComboBox>
                         <ext:ComboBox runat="server" ID="cbxMedico" FieldLabel="Medico" Editable="false" QueryMode="Local" TriggerAction="All" Flex="1" EmptyText="Seleccione un medico" StoreID="strMedico" TypeAhead="true" ForceSelection="true" DisplayField="medico"
                             ValueField="id_medico" AllowBlank="false">
@@ -349,7 +190,7 @@
                         <ext:FieldContainer runat="server" Layout="HBoxLayout">
                             <Items>
                                 <ext:TextField runat="server" ID="txtTelefono" FieldLabel="teléfono" EmptyText="(xxx)xxxx-xxxx"
-                                    MaskRe="[\d\-]" Regex="^\d{3}-\d{3}-\d{4}$" RegexText="Debe estar en el formato (xxx)xxxx-xxxx" AllowBlank="false">
+                                    MaskRe="[\d\-\(\)]" Regex="^\(\d{3}\)\d{4}-\d{4}$" RegexText="Debe estar en el formato (xxx)xxxx-xxxx" AllowBlank="false">
                                     <AfterLabelTextTpl runat="server">
                                         <Html>
                                             <span style="color: red; font-weight: bold" data-qtip="Required">*</span>
@@ -378,20 +219,34 @@
                             </Items>
                         </ext:FieldContainer>
                     </Items>
+                    <Listeners>
+                        <ValidityChange Handler="#{btnGenerar}.setDisabled(!valid);" />
+                    </Listeners>
                     <Buttons>
-                        <ext:Button runat="server" Text="Generar" Icon="Disk">
+                        <ext:Button runat="server" ID="btnGenerar" Text="Generar" Icon="Disk" Disabled="true">
+                            <DirectEvents>
+                                <Click OnEvent="btnGenerar_Click" Before="if (!dui_ver(#{txtDui}.getValue())) {Ext.Msg.show({icon: Ext.MessageBox.WARNING, msg: 'El DUI no es valido', buttons:Ext.Msg.OK});return false;}" Method="POST">
+                                    <EventMask ShowMask="true" />
+                                    <ExtraParams>
+                                        <ext:Parameter Name="objCita" Value="Ext.encode(this.up('form').getForm().getValues())" Mode="Raw" />
+                                    </ExtraParams>
+                                </Click>
+                            </DirectEvents>
                             <Listeners>
                                 <Click Handler="dui_ver(Ext.getCmp('txtDui').getValue());" />
                             </Listeners>
                         </ext:Button>
                         <ext:Button runat="server" Text="Cancelar" Icon="Cancel">
                             <Listeners>
-                                <Click Handler="this.up('form').getForm().reset();" />
+                                <Click Handler="this.up('form').getForm().reset();this.up('window').hide();" />
                             </Listeners>
                         </ext:Button>
                     </Buttons>
                 </ext:FormPanel>
             </Items>
+            <Listeners>
+                <Hide Handler="this.up('form').getForm().reset();" />
+            </Listeners>
         </ext:Window>
 
     </form>
