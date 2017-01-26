@@ -6,25 +6,26 @@ using capaDatos;
 using System.Collections;
 
 
-
-
 /// <summary>
-/// Descripción breve de manttoServicios
+/// Descripción breve de manttoEspecialidad
 /// </summary>
-namespace capaNegocio
+namespace capaNegocios
 {
-    public class manttoServicios
+    public class manttoEspecialidad
     {
-        datosServicios objDatos = new datosServicios();
-        public manttoServicios()
+        datosEspecialidad objDatos = new datosEspecialidad();
+        public manttoEspecialidad()
         {
-
+            //
+            // TODO: Agregar aquí la lógica del constructor
+            //
         }
-        public void saveItems(string nombreS, string costoS)
+
+        public void saveItems(string nombreS)
         {
-            if (!nombreS.Equals("") && !costoS.Equals(""))
+            if (!nombreS.Equals(""))
             {
-                objDatos.dbSaveItems(nombreS, costoS);
+                objDatos.dbSaveItems(nombreS);
             }
 
         }
@@ -49,6 +50,5 @@ namespace capaNegocio
                 objDatos.dbUpdateData(idServicios, nombre, costo);
             }
         }
-
     }
 }

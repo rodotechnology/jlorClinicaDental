@@ -14,8 +14,7 @@
 
         <ext:FormPanel
             runat="server"
-            Title="MANTENIMIENTOS DE ESPECIALIDADES MEDICAS"
-            Width="1000"
+            Title="MANTENIMIENTO DE ESPECIALIDADES MEDICAS"
             BodyPadding="5"
             Layout="ColumnLayout">
 
@@ -32,13 +31,14 @@
                         <ext:Parameter Name="LabelWidth" Value="115" />
                     </Defaults>
                     <Items>
-                        <ext:TextField Name="nombre" runat="server" FieldLabel="Nombre" Width="300"/>
+                        <ext:TextField ID="txtIdEspecialidad" runat="server" Hidden="true"/>
+                        <ext:TextField Name="nombre" ID="txtNombre" runat="server" FieldLabel="Nombre" Width="300" />
                         <ext:ComboBox
                             runat="server"
                             FieldLabel="Servicios:"
                             DisplayField="nombre"
                             ValueField="id_servicio"
-                            Width="325">
+                            Width="325" ID="cbxServicios">
                             <Store>
                                 <ext:Store runat="server" ID="StoreServicios" AutoDataBind="true">
                                     <Model>
@@ -46,7 +46,6 @@
                                             <Fields>
                                                 <ext:ModelField Name="id_servicio" />
                                                 <ext:ModelField Name="nombre" />
-                                                <ext:ModelField Name="costo" />
                                             </Fields>
                                         </ext:Model>
                                     </Model>
@@ -58,17 +57,16 @@
                         </ext:ComboBox>
                         <ext:ButtonGroup runat="server" Title="Acciones" TitleAlign="Left">
                             <Buttons>
-                                <ext:Button runat="server" Text="Guardar">
-                                    <%--<Listeners>
-                        <Click Handler="var form = this.up('form'),
-                                            r = form.getForm().getRecord();
-
-                                        if (r) {
-                                            form.getForm().updateRecord(form.down('grid').getSelectionModel().getLastSelected());
-                                        }" />
-                    </Listeners>--%>
+                                <ext:Button runat="server" ID="btnGuardar" Text="Guardar">
+                                    <Listeners>
+                                        <Click Handler="App.direct.guardar();this.up('form').getForm().reset(); App.direct.SelectRegistros();" />
+                                    </Listeners>
                                 </ext:Button>
-
+                                <ext:Button runat="server" ID="btnUpdate" Text="Modificar">
+                                    <Listeners>
+                                        <Click Handler="" />
+                                    </Listeners>
+                                </ext:Button>
                                 <ext:Button runat="server" Text="Borrar">
                                     <Listeners>
                                         <Click Handler="this.up('form').getForm().reset();" />
@@ -86,15 +84,14 @@
                 <ext:GridPanel
                     runat="server"
                     ColumnWidth="0.6"
-                    Height="400">
+                     Layout="FitLayout">
                     <Store>
                         <ext:Store ID="Store1" runat="server">
                             <Model>
                                 <ext:Model runat="server">
                                     <Fields>
                                         <ext:ModelField Name="nombre" />
-                                        <ext:ModelField Name="nomServicio"/>
-                                        <ext:ModelField Name="fechaingreso"/>
+                                        <ext:ModelField Name="nomServicio" />
                                     </Fields>
                                 </ext:Model>
                             </Model>

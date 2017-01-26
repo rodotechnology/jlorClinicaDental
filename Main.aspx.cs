@@ -203,12 +203,12 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
         { "Gestión de sistema","#","Administrador",Icon.Computer, new ArrayList()
             {               
-                new ArrayList() { "Registro de usuarios", "Mantenimientos/manttoUsuario.aspx", "", Icon.UserAdd, null},
-                new ArrayList() { "Registro de roles", "Mantenimientos/manttoGruposP.aspx", "", Icon.GroupAdd, null},
-                new ArrayList() { "Registro de Médicos", "Mantenimientos/manttoPermisosP.aspx", "", Icon.UserSuit, null},
-                new ArrayList() { "Registro de Servicios", "Mantenimientos/manttoUsuarioUnidad.aspx", "", Icon.SitemapColor, null},
-                new ArrayList() { "Registro de Especialidades", "Mantenimientos/manttoUsuarioUnidad.aspx", "", Icon.RosetteBlue, null},
-                new ArrayList() { "Registro de Variables", "Mantenimientos/manttoUsuarioUnidad.aspx", "", Icon.CogAdd, null}
+                new ArrayList() { "Registro de usuarios", "Formularios/manttoUsuario.aspx", "", Icon.UserAdd, null},
+                new ArrayList() { "Registro de roles", "Formularios/manttoGruposP.aspx", "", Icon.GroupAdd, null},
+                new ArrayList() { "Registro de Médicos", "Formularios/manttoPermisosP.aspx", "", Icon.UserSuit, null},
+                new ArrayList() { "Registro de Servicios", "~/Formularios/manttoServicios.aspx", "", Icon.SitemapColor, null},
+                new ArrayList() { "Registro de Especialidades", "Formularios/manttoEspecialidad.aspx", "", Icon.RosetteBlue, null},
+                new ArrayList() { "Registro de Variables", "Formularios/manttoUsuarioUnidad.aspx", "", Icon.CogAdd, null}
             }
         };
         arbol.Add(nodo);
