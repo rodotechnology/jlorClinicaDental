@@ -10,7 +10,7 @@
 </head>
 <body>
     <form runat="server">
-        <ext:ResourceManager runat="server" />
+        <ext:ResourceManager ID="ResoruceManager1" runat="server" />
         <ext:FormPanel
             runat="server"
             Title="MANTENIMIENTO DE SERVICIOS MEDICOS"
@@ -40,7 +40,7 @@
                                 </ext:Button>
                                 <ext:Button runat="server" ID="btnUpdate" Text="Modificar" Hidden="true">
                                     <Listeners>
-                                        <Click Handler="App.direct.msgConfirmarModificacion();App.direct.SelectRegistros();" />
+                                        <Click Handler="App.direct.msgConfirmarModificacion();" />
                                     </Listeners>
                                 </ext:Button>
                                 <ext:Button runat="server" Text="Borrar">

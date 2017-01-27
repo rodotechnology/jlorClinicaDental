@@ -118,6 +118,11 @@ namespace capaDatos
                 cmd.Parameters.AddWithValue("@costo", costo);
                 cmd.Parameters.AddWithValue("@idServicio", id_Servicios);
                 cmd.ExecuteNonQuery();
+
+                //cierre de conexion 
+                conn.Close();
+                conn.Dispose();
+                cmd.Dispose();
             }
             catch (Exception ex)
             {

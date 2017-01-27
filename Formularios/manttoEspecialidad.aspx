@@ -57,12 +57,12 @@
                             <Buttons>
                                 <ext:Button runat="server" ID="btnGuardar" Text="Guardar">
                                     <Listeners>
-                                        <Click Handler="App.direct.mgsConfirmarSave(); App.direct.SelectRegistros();" />
+                                        <Click Handler="App.direct.mgsConfirmarSave();" />
                                     </Listeners>
                                 </ext:Button>
                                 <ext:Button runat="server" ID="btnUpdate" Text="Modificar" Hidden="true">
                                     <Listeners>
-                                        <Click Handler="App.direct.msgConfirmarModificacion();App.direct.SelectRegistros();" />
+                                        <Click Handler="App.direct.msgConfirmarModificacion();" />
                                     </Listeners>
                                 </ext:Button>
                                 <ext:Button runat="server" Text="Borrar">

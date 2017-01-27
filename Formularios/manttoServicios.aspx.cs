@@ -126,10 +126,11 @@ public partial class Formularios_servicios : System.Web.UI.Page
         objNegocio.updateItmes(txtIDServicio.Text, txtservicios.Text, txtcosto.Text);
         this.btnGuardar.Hidden = false;
         this.btnUpdate.Hidden = true;
-        limpiarCamposForm();
+        
         this.txtservicios.Focus();
-        //SelectRegistros();
-        X.Msg.Alert("Exito", "Sea actualizado el regitro.").Show();
+        SelectRegistros();
+        limpiarCamposForm();
+        //X.Msg.Alert("Exito", "Sea actualizado el regitro.").Show();
     }
 
     [DirectMethod]
