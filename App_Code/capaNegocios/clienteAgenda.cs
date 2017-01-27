@@ -32,6 +32,7 @@ public class clienteAgenda
 
     public Int64 setInsertClienteCita(string Datajson)
     {
+        //porceso de generar cliente y cita
         Hashtable row = (Hashtable)JSON.Deserialize(Datajson.ToString(), typeof(Hashtable));
         datosCliente objCliente = new datosCliente();
         Int64 id = objCliente.insertCliente(row["txtNombre"].ToString(), row["txtApellidos"].ToString(), row["txtTelefono"].ToString(), row["txtCorreo"].ToString(), row["txtDui"].ToString());
@@ -45,5 +46,36 @@ public class clienteAgenda
 
         }
         return id_cita;
+    }
+
+    public EventModelCollection getColeccionCitas()
+    {
+        //proceso de generacion de las citas en el calendario
+        datosAgenda objColeccionCitas = new datosAgenda();
+        ArrayList registros = objColeccionCitas.getCitas();
+
+        EventModelCollection recopilarEventos = new EventModelCollection();
+        List<EventModel> lista = new List<EventModel>();
+
+        foreach (Hashtable row in registros)
+        {
+            DateTime dt = Convert.ToDateTime(row["dia_cita"].ToString());
+            string fechaIni = String.Format("{0} {1}", String.Format("{0:dd/MM/yyyy}", dt), row["hora_inicio"].ToString());
+            string fechaFin = String.Format("{0} {1}", String.Format("{0:dd/MM/yyyy}", dt), row["hora_fin"].ToString());
+            DateTime fini = Convert.ToDateTime(fechaIni);
+            DateTime ffin = Convert.ToDateTime(fechaFin);
+            lista.Add(new EventModel
+            {
+                EventId = Convert.ToInt32(row["id_cita"].ToString()),
+                CalendarId = 1,
+                Title = "Cita sin confirmar",
+                StartDate = fini,
+                EndDate = ffin,
+                IsAllDay = false
+            });
+        }
+        recopilarEventos.AddRange(lista);
+
+        return recopilarEventos;
     }
 }

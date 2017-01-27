@@ -77,6 +77,7 @@
                         </ext:Panel>
 
                         <ext:CalendarPanel ID="CalendarPanel1" runat="server" Region="Center" ActiveIndex="2" Border="false" DayText="Día" WeekText="Semana" MonthText="Mes">
+                            <EventStore ID="EventStore1" runat="server" />
                             <CalendarStore ID="CalendarStore1" runat="server">
                                 <Calendars>
                                     <ext:CalendarModel CalendarId="1" Title="Home" />
@@ -132,7 +133,7 @@
                 <EventDelete Fn="CompanyX.record.remove" Scope="CompanyX" />--%>
             </Listeners>
         </ext:EventWindow>
-        <ext:Window runat="server" ID="winRegistroCita" Title="Nueva Cita" Icon="Add" Width="600" Height="430" Collapsible="true" BodyStyle="background-color: #fff;" BodyPadding="5" Hidden="false" Modal="true">
+        <ext:Window runat="server" ID="winRegistroCita" Title="Nueva Cita" Icon="Add" Width="600" Height="430" Collapsible="true" BodyStyle="background-color: #fff;" BodyPadding="5" Hidden="true" Modal="true">
             <Items>
                 <ext:FormPanel runat="server" ID="frmPnlCita" BodyPadding="5" DefaultAnchor="100%">
                     <Items>

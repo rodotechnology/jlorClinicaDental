@@ -109,4 +109,45 @@ public class datosAgenda
         }
         return id;
     }
+
+    public ArrayList getCitas()
+    {
+        ArrayList citas = new ArrayList();
+        SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
+        //sentencia que busca todas las citas que no esten confirmadas para el cliente potencial
+        string sql = "SELECT id_cita,dia_cita,hora_inicio,hora_fin  FROM CITA where id_estado_cita=0";
+        SqlCommand cmd = new SqlCommand(sql, conn);
+        SqlDataReader mydr = null;
+        try
+        {
+            conn.Open();
+            mydr = cmd.ExecuteReader();
+            if (mydr.HasRows)
+            {
+                while (mydr.Read())
+                {
+                    //lectura
+                    Hashtable campos = new Hashtable();
+                    campos.Add("id_cita", mydr["id_cita"].ToString());
+                    campos.Add("dia_cita", mydr["dia_cita"].ToString());
+                    campos.Add("hora_inicio", mydr["hora_inicio"].ToString());
+                    campos.Add("hora_fin", mydr["hora_fin"].ToString());
+                    citas.Add(campos);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            //cierre de conexion y lectura
+            if (mydr != null) { mydr.Close(); mydr.Dispose(); cmd.Dispose(); }
+
+            if (conn != null) { conn.Close(); conn.Dispose(); }
+        }
+        //retorna arreglo
+        return citas;
+    }
 }

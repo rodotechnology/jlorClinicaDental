@@ -21,6 +21,7 @@ public class datosCliente
         try
         {
             conn.Open();
+            //sentencia a ejecutar
             string sql = "insert into CLIENTE (nombre,apellidos,telefono,correo,dui) values (@nombre,@apellidos,@telefono,@correo,@dui);SELECT IDENT_CURRENT('CLIENTE') as id;";
             SqlCommand cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@nombre", nombre);
@@ -28,12 +29,13 @@ public class datosCliente
             cmd.Parameters.AddWithValue("@telefono", telefono);
             cmd.Parameters.AddWithValue("@correo", correo);
             cmd.Parameters.AddWithValue("@dui", dui);
+            //capturando el ultimo id generado
             id = Convert.ToInt64(cmd.ExecuteScalar());
             cmd.Dispose();
         }
         catch (SqlException ex)
         {
-            //return "Error al intentar enviar los datos:" + ex;
+            //retorna cero si hay error
             return id;
         }
         finally
@@ -41,6 +43,7 @@ public class datosCliente
             conn.Close();
             conn.Dispose();
         }
+        //valor a retornar
         return id;
     }
 }
