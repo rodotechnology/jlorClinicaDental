@@ -89,7 +89,7 @@
                 <ext:Panel ID="PanelN" runat="server" Height="45" BodyStyle="background-image: url(Img/banner-superior.jpg)"
                     Region="North">
                     <Content>
-<%--                        <div style="position: absolute; bottom: -2px; right: 10px">
+                        <%--                        <div style="position: absolute; bottom: -2px; right: 10px">
                             <img alt="Sistema de Recurso Docente" src="Assets/Img/letras_srd.png" />
                         </div>
                         <div style="position: absolute; bottom: -2px; left: 40px">
@@ -111,6 +111,9 @@
                             </Items>
                         </ext:Toolbar>
                     </BottomBar>
+                    <Buttons>
+                        <ext:Button ID="logout" runat="server" Href="Index.aspx" HrefTarget="_self" Icon="DoorOut" Text="Cerrar sesión" UI="Danger"  />
+                    </Buttons>
                 </ext:TreePanel>
                 <ext:TabPanel ID="mTabs" runat="server" Region="Center" ActiveTabIndex="0" Border="false" Layout="FitLayout">
                     <Items>
