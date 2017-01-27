@@ -36,24 +36,20 @@ namespace capaNegocios
             return objDatos.dbSelectAllItems();
         }
 
-        public void msgConfirmacion(string idEspecialidad) {
-            X.Msg.Confirm("Confirmación", "Desea eliminar el registro?", new JFunction { Fn = "App.direct.deleteItems("+ idEspecialidad + ")" }).Show();
-        }
-
-        [DirectMethod]
         public void deleteItems(string idEspecialidad)
         {
             if (!idEspecialidad.Equals(""))
             {
                 objDatos.dbDeleteItems(idEspecialidad);
+                
             }
         }
 
-        public void updateItmes(string idServicios, string nombre, string costo)
+        public void updateItmes(string idServicios, string nombre, string id_especialidad)
         {
-            if (!idServicios.Equals("") && !nombre.Equals("") && !costo.Equals(""))
+            if (!idServicios.Equals("") && !nombre.Equals("") && !id_especialidad.Equals(""))
             {
-                //objDatos.dbUpdateData(idServicios, nombre, costo);
+                objDatos.dbUpdateData(idServicios, nombre, id_especialidad);
             }
         }
     }

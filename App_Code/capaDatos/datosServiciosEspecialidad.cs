@@ -49,5 +49,31 @@ namespace capaDatos
             }
 
         }
+
+        public void dbUpdateData(string id_especialidad, string id_Servicio)
+        {
+            try
+            {
+                //Modificando los registros de la tabla EPECIALIDAD
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+                conn.Open();
+                //Modificando la tabla servicio_especialidad
+                string sql = "UPDATE SERVICIO_ESPECIALIDAD SET id_servicio=@id_servicio WHERE id_especialidad=@idEspecialidad;";
+                cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id_servicio", id_Servicio);
+                cmd.Parameters.AddWithValue("@idEspecialidad", id_especialidad);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                //Cierre de conexiones
+                conn.Close();
+                conn.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("Error", "Al modificar los registros.").Show();
+            }
+        }
     }
 }
