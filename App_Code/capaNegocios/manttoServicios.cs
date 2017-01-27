@@ -11,7 +11,7 @@ using System.Collections;
 /// <summary>
 /// Descripción breve de manttoServicios
 /// </summary>
-namespace capaNegocio
+namespace capaNegocios
 {
     public class manttoServicios
     {

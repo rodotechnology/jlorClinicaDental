@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Ext.Net;
-using capaNegocio;
+using capaNegocios;
 
 public partial class Vista_Cita : System.Web.UI.Page
 {

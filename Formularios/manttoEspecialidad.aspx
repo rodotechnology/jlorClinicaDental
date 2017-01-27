@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="manttoEspecialidad.aspx.cs" Inherits="Formularios_MattoEspecialidad" %>
-
+<%@ Register Assembly="Ext.Net" Namespace="Ext.Net" TagPrefix="ext" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -38,9 +38,9 @@
                             FieldLabel="Servicios:"
                             DisplayField="nombre"
                             ValueField="id_servicio"
-                            Width="325" ID="cbxServicios">
+                            Width="405" ID="cbxServicios">
                             <Store>
-                                <ext:Store runat="server" ID="StoreServicios" AutoDataBind="true">
+                                <ext:Store runat="server" ID="StoreServicios">
                                     <Model>
                                         <ext:Model runat="server">
                                             <Fields>
@@ -49,20 +49,17 @@
                                             </Fields>
                                         </ext:Model>
                                     </Model>
-                                    <Reader>
-                                        <ext:ArrayReader />
-                                    </Reader>
                                 </ext:Store>
                             </Store>
                         </ext:ComboBox>
-                        <ext:ButtonGroup runat="server" Title="Acciones" TitleAlign="Left">
+                        <ext:ButtonGroup runat="server" TitleAlign="Left">
                             <Buttons>
                                 <ext:Button runat="server" ID="btnGuardar" Text="Guardar">
                                     <Listeners>
                                         <Click Handler="App.direct.guardar();this.up('form').getForm().reset(); App.direct.SelectRegistros();" />
                                     </Listeners>
                                 </ext:Button>
-                                <ext:Button runat="server" ID="btnUpdate" Text="Modificar">
+                                <ext:Button runat="server" ID="btnUpdate" Text="Modificar" Hidden="true">
                                     <Listeners>
                                         <Click Handler="" />
                                     </Listeners>
@@ -90,7 +87,9 @@
                             <Model>
                                 <ext:Model runat="server">
                                     <Fields>
+                                        <ext:ModelField Name="id_especialidad" />
                                         <ext:ModelField Name="nombre" />
+                                        <ext:ModelField Name="idServicios" />
                                         <ext:ModelField Name="nomServicio" />
                                     </Fields>
                                 </ext:Model>
@@ -102,8 +101,19 @@
                             <ext:Column runat="server" Text="Nombre Especialidad" DataIndex="nombre" Flex="1" />
                             <ext:Column runat="server" Text="Servicios" DataIndex="nomServicio" Flex="1">
                             </ext:Column>
-                            <ext:Column runat="server" Text="Fecha Ingreso" Flex="1" DataIndex="fechaingreso">
-                            </ext:Column>
+                            <ext:CommandColumn runat="server" Width="75">
+                                <Commands>
+                                    <ext:GridCommand Icon="BookEdit" CommandName="modificar">
+                                        <ToolTip Text="Modificar"></ToolTip>
+                                    </ext:GridCommand>
+                                    <ext:GridCommand Icon="Cancel" CommandName="Eliminar">
+                                        <ToolTip Text="Eliminar"></ToolTip>
+                                    </ext:GridCommand>
+                                </Commands>
+                                <Listeners>
+                                    <Command Handler="App.direct.Acciones(command, record.data.id_especialidad,record.data.nombre,record.data.idServicios);" />
+                                </Listeners>
+                            </ext:CommandColumn>
                         </Columns>
                     </ColumnModel>
                     <%--<Listeners>

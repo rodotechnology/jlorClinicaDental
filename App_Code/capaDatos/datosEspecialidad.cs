@@ -10,117 +10,134 @@ using Ext.Net;
 /// <summary>
 /// Descripción breve de datosEspecialidad
 /// </summary>
-public class datosEspecialidad
+/// 
+namespace capaDatos
 {
-    SqlConnection conn = new SqlConnection();
-    SqlCommand cmd;
-    SqlDataReader dr;
-    public datosEspecialidad()
+    public class datosEspecialidad
     {
-        //
-        // TODO: Agregar aquí la lógica del constructor
-        //
-    }
-
-    public void dbSaveItems(string nombreS)
-    {
-        try
+        SqlConnection conn = new SqlConnection();
+        SqlCommand cmd;
+        SqlDataReader dr;
+        public datosEspecialidad()
         {
-            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
-            conn.Open();
-            string sql = "INSERT INTO ESPECIALIDAD (nombre) VALUES (@nombreEspecialidad)";
-            cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@nombreEspecialidad", nombreS);
-
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-            //Ultimo RegistroGuardado
-            string sqlInsert = "select last_insert_id() as lid";
-            cmd = new SqlCommand(sqlInsert, conn);
-            SqlDataReader dr = cmd.ExecuteReader();
-            string idEspecialidad = dr["lid"].ToString();
-
-            //Cierre de conexiones
-            dr.Close();
-            conn.Close();
-            conn.Dispose();
-            cmd.Dispose();
-        }
-        catch (Exception ex)
-        {
-            X.Msg.Alert("Error", "No se puede insertar el registro.").Show();
+            //
+            // TODO: Agregar aquí la lógica del constructor
+            //
         }
 
-    }
-    public Array dbSelectAllItems()
-    {
-        ArrayList record = new ArrayList();
-        try
+        public void dbSaveItems(string nombreS, string idServicio)
         {
-            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
-            conn.Open();
-            string sql = "SELECT id_servicio, nombre, costo FROM SERVICIOS";
-            cmd = new SqlCommand(sql, conn);
-            dr = cmd.ExecuteReader();
-            if (dr.HasRows)
+            try
             {
-                while (dr.Read())
-                {
-                    var htable = new { id_servicio = dr["id_servicio"].ToString(), nombre = dr["nombre"].ToString(), costo = dr["costo"].ToString() };
-                    record.Add(htable);
-                }
+                //Insertando los registros en la tabla Especialidad
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+                conn.Open();
+                string sql = "INSERT INTO EPECIALIDAD (nombre) VALUES (@nombreEspecialidad)";
+                cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@nombreEspecialidad", nombreS);
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                //Ultimo RegistroGuardado
+                string sqlInsert = "SELECT @@IDENTITY as lid";
+                cmd = new SqlCommand(sqlInsert, conn);
+                string idEspecialidad = cmd.ExecuteScalar().ToString();
+
+                //Cierre de conexiones
+                
+                conn.Close();
+                conn.Dispose();
+                cmd.Dispose();
+
+                datosServiciosEspecialidad objServiciosEspecialidad = new datosServiciosEspecialidad();
+                objServiciosEspecialidad.dbSaveItems(idEspecialidad, idServicio);
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("Error", "No se puede insertar el registro.").Show();
             }
 
-            //Cierre de conexciones 
-            dr.Close();
-            cmd.Dispose();
-            conn.Close();
-            conn.Dispose();
         }
-        catch (Exception ex)
+        public Array dbSelectAllItems()
         {
-            X.Msg.Alert("Error", "Al retornar los registros.").Show();
-        }
-        //Retornando el valor del arreglo
-        return record.ToArray();
-    }
+            ArrayList record = new ArrayList();
+            try
+            {
+                //Recuperando los registros de la vista EspecialidadServicios 
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+                conn.Open();
+                string sql = "SELECT  id_servicio_especialidad, id_especialidad, Especialidad, id_servicio, Servicio FROM EspecialidadServicios";
+                cmd = new SqlCommand(sql, conn);
+                dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        var htable = new { id_especialidad = dr["id_especialidad"].ToString(), nombre = dr["Especialidad"].ToString(), nomServicio = dr["Servicio"].ToString(), idServicios=dr["id_servicio"].ToString() };
+                        record.Add(htable);
+                    }
+                }
 
-    public void dbDeleteItems(string idServicio)
-    {
-        try
-        {
-            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
-            conn.Open();
-            string sql = "DELETE FROM SERVICIOS WHERE id_servicio=@idServicio";
-            cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@idServicio", idServicio);
-            cmd.ExecuteNonQuery();
-            //Cierre de conexiones
-            conn.Close();
-            conn.Dispose();
-            cmd.Dispose();
+                //Cierre de conexciones 
+                dr.Close();
+                cmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("Error", "Al retornar los registros.").Show();
+            }
+            //Retornando el valor del arreglo
+            return record.ToArray();
         }
-        catch (Exception ex)
-        {
-            X.Msg.Alert("Error", "Al borrar los registros.").Show();
-        }
-    }
 
-    public void dbUpdateData(string id_Servicios, string nombre)
-    {
-        try
+        public void dbDeleteItems(string idEspecialidad)
         {
-            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
-            conn.Open();
-            string sql = "UPDATE SERVICIOS SET nombre=@nombre, costo = @costo WHERE id_servicio=@idServicio";
-            cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@nombre", nombre);
-            cmd.Parameters.AddWithValue("@idServicio", id_Servicios);
-            cmd.ExecuteNonQuery();
+            
+            try
+            {
+                //Eliminando los registro de la tabla Especialidad
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+                conn.Open();
+                string sql = "DELETE FROM EPECIALIDAD WHERE id_especialidad=@idEspecialidad";
+                cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@idEspecialidad", idEspecialidad);
+                cmd.ExecuteNonQuery();
+           //Limpiando Variable
+                cmd.Dispose();
+                sql = "DELETE FROM SERVICIO_ESPECIALIDAD WHERE id_especialidad=@idEspecialidad";
+                cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@idEspecialidad", idEspecialidad);
+                cmd.ExecuteNonQuery();
+                //Cierre de conexiones
+                conn.Close();
+                conn.Dispose();
+                cmd.Dispose();
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("Error", "Al borrar los registros.").Show();
+            }
         }
-        catch (Exception ex)
+
+        public void dbUpdateData(string id_especialidad, string nombre)
         {
-            X.Msg.Alert("Error", "Al modificar los registros.").Show();
+            try
+            {
+                //Modificando los registros de la tabla 
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+                conn.Open();
+                string sql = "UPDATE EPECIALIDAD SET nombre=@nombre WHERE id_especialidad=@idEspecialidad";
+                cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@nombre", nombre);
+                cmd.Parameters.AddWithValue("@idEspecialidad", id_especialidad);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("Error", "Al modificar los registros.").Show();
+            }
         }
     }
 }

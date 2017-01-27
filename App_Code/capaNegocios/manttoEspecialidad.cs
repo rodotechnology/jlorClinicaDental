@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using capaDatos;
 using System.Collections;
+using Ext.Net;
 
 
 /// <summary>
@@ -21,11 +22,11 @@ namespace capaNegocios
             //
         }
 
-        public void saveItems(string nombreS)
+        public void saveItems(string nombreS, string idServicio)
         {
             if (!nombreS.Equals(""))
             {
-                objDatos.dbSaveItems(nombreS);
+                objDatos.dbSaveItems(nombreS, idServicio);
             }
 
         }
@@ -35,11 +36,16 @@ namespace capaNegocios
             return objDatos.dbSelectAllItems();
         }
 
-        public void deleteItems(string idServicio)
+        public void msgConfirmacion(string idEspecialidad) {
+            X.Msg.Confirm("Confirmación", "Desea eliminar el registro?", new JFunction { Fn = "App.direct.deleteItems("+ idEspecialidad + ")" }).Show();
+        }
+
+        [DirectMethod]
+        public void deleteItems(string idEspecialidad)
         {
-            if (!idServicio.Equals(""))
+            if (!idEspecialidad.Equals(""))
             {
-                objDatos.dbDeleteItems(idServicio);
+                objDatos.dbDeleteItems(idEspecialidad);
             }
         }
 
@@ -47,7 +53,7 @@ namespace capaNegocios
         {
             if (!idServicios.Equals("") && !nombre.Equals("") && !costo.Equals(""))
             {
-                objDatos.dbUpdateData(idServicios, nombre, costo);
+                //objDatos.dbUpdateData(idServicios, nombre, costo);
             }
         }
     }

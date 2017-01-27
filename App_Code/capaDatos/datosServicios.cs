@@ -27,6 +27,7 @@ namespace capaDatos
         {
             try
             {
+                //Insertando los registros en la tabla Servicios
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
                 conn.Open();
                 string sql = "INSERT INTO SERVICIOS (nombre, costo) VALUES (@nombreServicios, @costoServicios)";
@@ -51,6 +52,8 @@ namespace capaDatos
             ArrayList record = new ArrayList();
             try
             {
+
+                //Recuperando los registros de la tabla Servicios
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
                 conn.Open();
                 string sql = "SELECT id_servicio, nombre, costo FROM SERVICIOS";
@@ -83,6 +86,8 @@ namespace capaDatos
         {
             try
             {
+
+                //Eliminando los registros de la tabla Servicios
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
                 conn.Open();
                 string sql = "DELETE FROM SERVICIOS WHERE id_servicio=@idServicio";
@@ -104,6 +109,7 @@ namespace capaDatos
         {
             try
             {
+                //Modificando los registros de la tabla servicios
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
                 conn.Open();
                 string sql = "UPDATE SERVICIOS SET nombre=@nombre, costo = @costo WHERE id_servicio=@idServicio";

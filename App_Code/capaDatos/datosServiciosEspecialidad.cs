@@ -5,44 +5,49 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections;
+using Ext.Net;
 
 /// <summary>
 /// Descripción breve de datosServiciosEspecialidad
 /// </summary>
-public class datosServiciosEspecialidad
+namespace capaDatos
 {
-    SqlConnection conn = new SqlConnection();
-    SqlCommand cmd;
-    SqlDataReader dr;
-    public datosServiciosEspecialidad()
+    public class datosServiciosEspecialidad
     {
-        //
-        // TODO: Agregar aquí la lógica del constructor
-        //
-    }
-
-    public void dbSaveItems(string idEspecialidad, string idServicios)
-    {
-        try
+        SqlConnection conn = new SqlConnection();
+        SqlCommand cmd;
+        SqlDataReader dr;
+        public datosServiciosEspecialidad()
         {
-            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
-            conn.Open();
-            string sql = "INSERT INTO SERVICIO_ESPECIALIDAD (id_servicio,id_especialidad) VALUES (@id_servicio, @id_especialidad)";
-            cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@id_especialidad", idEspecialidad);
-
-            cmd.ExecuteNonQuery();
-
-            //Cierre de conexiones
-
-            conn.Close();
-            conn.Dispose();
-            cmd.Dispose();
-        }
-        catch (Exception ex)
-        {
-            X.Msg.Alert("Error", "No se puede insertar el registro.").Show();
+            //
+            // TODO: Agregar aquí la lógica del constructor
+            //
         }
 
+        public void dbSaveItems(string idEspecialidad, string idServicios)
+        {
+            try
+            {
+                //Insertando los registros en la tabla Servicio_Especialidad
+
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+                conn.Open();
+                string sql = "INSERT INTO SERVICIO_ESPECIALIDAD (id_servicio,id_especialidad) VALUES (@id_servicio, @id_especialidad)";
+                cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id_especialidad", idEspecialidad);
+                cmd.Parameters.AddWithValue("@id_servicio", idServicios);
+                cmd.ExecuteNonQuery();
+
+                //Cierre de conexiones
+                conn.Close();
+                conn.Dispose();
+                cmd.Dispose();
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("Error", "No se puede insertar el registro.").Show();
+            }
+
+        }
     }
 }
