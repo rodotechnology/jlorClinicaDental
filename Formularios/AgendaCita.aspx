@@ -10,7 +10,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <ext:ResourceManager runat="server" Namespace="CompanyX" />
+        <ext:ResourceManager ID="rm" runat="server" Namespace="CompanyX" Locale="es-ES"/>
         <ext:Store runat="server" ID="strServicio">
             <Model>
                 <ext:Model runat="server" IDProperty="id_servicio">
@@ -146,7 +146,7 @@
                                         </Html>
                                     </AfterLabelTextTpl>
                                 </ext:DateField>
-                                <ext:TimeField runat="server" ID="hinicio" FieldLabel="Hora Inicio" Increment="30" TriggerIcon="SimpleTime" AllowBlank="false">
+                                <ext:TimeField runat="server" ID="hinicio" FieldLabel="Hora Inicio" MinTime="8:00" MaxTime="18:00" Increment="30" Format="HH:mm" TriggerIcon="SimpleTime" AllowBlank="false">
                                     <AfterLabelTextTpl runat="server">
                                         <Html>
                                             <span style="color: red; font-weight: bold" data-qtip="Required">*</span>
@@ -226,7 +226,7 @@
                     <Buttons>
                         <ext:Button runat="server" ID="btnGenerar" Text="Generar" Icon="Disk" Disabled="true">
                             <DirectEvents>
-                                <Click OnEvent="btnGenerar_Click" Before="if (!dui_ver(#{txtDui}.getValue())) {Ext.Msg.show({icon: Ext.MessageBox.WARNING, msg: 'El DUI no es valido', buttons:Ext.Msg.OK});return false;}" Method="POST">
+                                <Click Complete="CompanyX.direct.actualizarCalendario();" OnEvent="btnGenerar_Click" Before="if (!dui_ver(#{txtDui}.getValue())) {Ext.Msg.show({icon: Ext.MessageBox.WARNING, msg: 'El DUI no es valido', buttons:Ext.Msg.OK});return false;}" Method="POST">
                                     <EventMask ShowMask="true" />
                                     <ExtraParams>
                                         <ext:Parameter Name="objCita" Value="Ext.encode(this.up('form').getForm().getValues())" Mode="Raw" />
@@ -246,7 +246,7 @@
                 </ext:FormPanel>
             </Items>
             <Listeners>
-                <Hide Handler="this.up('form').getForm().reset();" />
+                <Hide Handler="Ext.getCmp('frmPnlCita').reset();" />
             </Listeners>
         </ext:Window>
 
