@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Configuration;
 using System.Collections;
 using System.Data.SqlClient;
+using System.Globalization;
 
 /// <summary>
 /// Descripción breve de datosRol
@@ -22,7 +21,7 @@ namespace capaDatos
         public ArrayList getRoles()
         {
             ArrayList records = new ArrayList();
-            SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
             string sql = "SELECT id_rol,rol FROM Rol";
             SqlCommand cmd = new SqlCommand(sql, conn);
             SqlDataReader mydr = null;
@@ -54,7 +53,7 @@ namespace capaDatos
         public ArrayList getPermissionData(string idRol)
         {
             ArrayList records = new ArrayList();
-            SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
             string sql = "SELECT id_rol,rol FROM Rol  WHERE id_rol = @idRol";
             SqlCommand cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@idRol", idRol);
@@ -90,20 +89,20 @@ namespace capaDatos
         public bool validateRol(string txtNombreRol, string txtIdRolA, string txtNombreRolA, string type)
         {
             bool resultado = false;
-            SqlConnection connV = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
-            string sql = "SELECT id_rol,rol FROM Rol";
+            SqlConnection connV = new SqlConnection(ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
+            string sql = string.Empty;
             SqlCommand cmdV = new SqlCommand(sql, connV);
             SqlDataReader mydrV = null;
             try
             {
                 connV.Open();
-                mydrV = cmdV.ExecuteReader();
 
                 if (type == "1")
                 {
                     string sqlStr1 = "SELECT id_rol FROM rol WHERE (rol = @nomRol)";
                     cmdV = new SqlCommand(sqlStr1, connV);
                     cmdV.Parameters.AddWithValue("@nomRol", txtNombreRol);
+                    mydrV = cmdV.ExecuteReader();
                 }
                 else if (type == "2")
                 {
@@ -111,12 +110,14 @@ namespace capaDatos
                     cmdV = new SqlCommand(sqlStr1, connV);
                     cmdV.Parameters.AddWithValue("@nomRol", txtNombreRolA);
                     cmdV.Parameters.AddWithValue("@idRol", txtIdRolA);
+                    mydrV = cmdV.ExecuteReader();
                 }
 
                 if (mydrV.HasRows)
                 {
                     mydrV.Read();
-                    resultado = true;
+                    if (!mydrV["id_rol"].Equals(string.Empty))
+                    { resultado = true; }
                 }
             }
             catch (Exception ex)
@@ -131,6 +132,72 @@ namespace capaDatos
             }
 
             return resultado;
+        }
+
+        public bool setRol(string txtNombreRol)
+        {
+            bool ok = false;
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd;
+
+                string insertRol = "INSERT INTO rol VALUES(@nomRol)";
+                cmd = new SqlCommand(insertRol, conn);
+
+                cmd.Parameters.AddWithValue("@nomRol", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtNombreRol.Trim().ToLower()));
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                ok = true;
+            }
+            catch (SqlException ex)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return ok;
+        }
+
+        public bool updateRol(string txtIdRolA, string txtNombreRolA)
+        {
+            bool ok = false;
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd;
+
+                string updateRol = "UPDATE rol SET rol = @nom_Rol WHERE id_rol = @id_Rol";
+                cmd = new SqlCommand(updateRol, conn);
+
+                cmd.Parameters.AddWithValue("@nom_Rol", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtNombreRolA.Trim().ToLower()));
+                cmd.Parameters.AddWithValue("@id_Rol", Convert.ToInt64(txtIdRolA));
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                ok = true;
+            }
+            catch (SqlException ex)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
+            return ok;
         }
     }
 }

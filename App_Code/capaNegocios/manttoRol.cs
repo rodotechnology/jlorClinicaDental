@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Collections;
+﻿using System.Collections;
 using capaDatos;
 
 /// <summary>
 /// Descripción breve de manttoRol
 /// </summary>
-namespace capaNegocio
+namespace capaNegocios
 {
     public class manttoRol
     {
@@ -32,14 +28,9 @@ namespace capaNegocio
 
             foreach(Hashtable record in objRoles.getPermissionData(idRol))
             {
-                var pupu = 0;
+                recordset = "{idRolA: '" + record["id_rolA"].ToString() + "', rolA: '" + record["rolA"] + "'}";
             }
 
-            /*for (int i =0; i < objRoles.getPermissionData(idRol).Count; i++)
-            {
-               var items = objRoles.getPermissionData(idRol)[i];
-                records = items.ToString();
-            }*/
             return recordset;
         }
 
@@ -47,6 +38,18 @@ namespace capaNegocio
         {
             datosRol objRoles = new datosRol();
             return objRoles.validateRol(txtNombreRol,txtIdRolA,txtNombreRolA,type);
+        }
+
+        public bool setRol(string txtNombreRol)
+        {
+            datosRol objRoles = new datosRol();
+            return objRoles.setRol(txtNombreRol);
+        }
+
+        public bool updateRol(string txtIdRolA, string txtNombreRolA)
+        {
+            datosRol objRoles = new datosRol();
+            return objRoles.updateRol(txtIdRolA, txtNombreRolA);
         }
     }
 }
