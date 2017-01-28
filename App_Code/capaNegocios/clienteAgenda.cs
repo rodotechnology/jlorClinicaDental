@@ -12,6 +12,7 @@ using Ext.Net;
 public class clienteAgenda
 {
     datosAgenda objDatos = new datosAgenda();
+    datosAlerta objAlerta = new datosAlerta();
     public clienteAgenda()
     {
         //
@@ -38,14 +39,16 @@ public class clienteAgenda
         #region
         List<string> listaCitas = objDatos.getEventosRegistrados(Convert.ToDateTime(row["finicio"].ToString()), Convert.ToDateTime(row["finicio"].ToString()), Convert.ToInt64(row["cbxMedico"].ToString()));
 
-        DateTime hora_fin = Convert.ToDateTime(row["hinicio"].ToString().Replace(" a.m.","").Replace(" p.m.",""));
+        //DateTime hora_fin = Convert.ToDateTime(row["hinicio"].ToString().Replace(" a.m.","").Replace(" p.m.",""));
+        DateTime hora_fin = Convert.ToDateTime(row["hinicio"].ToString());
         hora_fin = hora_fin.AddMinutes(30);
 
         ArrayList proporner = new ArrayList();
 
         #region primera forma de buscar una igual
         bool ejecutar = false;
-        bool ok = ContainsLoop(ref listaCitas, String.Format("{0}{1}{2}{3}", String.Format("{0:yyyyMMdd}", Convert.ToDateTime(row["finicio"].ToString()).Date), row["hinicio"].ToString().Substring(0, 5).Replace(":", ""), String.Format("{0:t}", hora_fin).Substring(0, 5).Replace(":", ""), row["cbxMedico"].ToString()));
+        //bool ok = ContainsLoop(ref listaCitas, String.Format("{0}{1}{2}{3}", String.Format("{0:yyyyMMdd}", Convert.ToDateTime(row["finicio"].ToString()).Date), row["hinicio"].ToString().Substring(0, 5).Replace(":", ""), String.Format("{0:t}", hora_fin).Substring(0, 5).Replace(":", ""), row["cbxMedico"].ToString()));
+        bool ok = ContainsLoop(ref listaCitas, String.Format("{0}{1}{2}{3}", String.Format("{0:yyyyMMdd}", Convert.ToDateTime(row["finicio"].ToString()).Date), row["hinicio"].ToString().Substring(0, 4).Replace(":", ""), String.Format("{0:t}", hora_fin).Substring(0, 4).Replace(":", ""), row["cbxMedico"].ToString()));
         if (ok)
         {
             //proporner.Add(String.Format("{0}/{1}/{2}", value.Substring(6, 2), value.Substring(4, 2), value.Substring(0, 4)));
@@ -57,7 +60,7 @@ public class clienteAgenda
         ArrayList encontradas = new ArrayList();
         if (ejecutar)
         {
-            encontradas = ContainsRango(ref listaCitas, row["hinicio"].ToString().Substring(0, 5), String.Format("{0:t}", hora_fin).Substring(0, 5));
+            encontradas = ContainsRango(ref listaCitas, row["hinicio"].ToString().Substring(0, 4), String.Format("{0:t}", hora_fin).Substring(0, 4));
             if (encontradas.Count == 0) { ejecutar = false; }
         }
         #endregion
@@ -71,7 +74,10 @@ public class clienteAgenda
             if (id > 0)
             {
                 #region agreando la cita
-                id_cita = objDatos.insertCita(Convert.ToInt64(row["cbxMedico"].ToString()), Convert.ToDateTime(row["finicio"].ToString()), row["hinicio"].ToString().Substring(0, 5), String.Format("{0:t}", hora_fin).Substring(0, 5), Convert.ToInt64(row["cbxServicio"].ToString()), id);
+                id_cita = objDatos.insertCita(Convert.ToInt64(row["cbxMedico"].ToString()), Convert.ToDateTime(row["finicio"].ToString()), row["hinicio"].ToString().Substring(0, 4), String.Format("{0:t}", hora_fin).Substring(0, 4), Convert.ToInt64(row["cbxServicio"].ToString()), id);
+                #endregion
+                #region agregar la alerta del modulo cita
+                objAlerta.insertAlerta(id_cita, row["txtNombre"].ToString() + ' ' + row["txtApellidos"].ToString());
                 #endregion
             }
         }

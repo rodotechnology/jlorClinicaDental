@@ -108,8 +108,8 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
         { "Gestión de citas","#","Administrador,Secretaria",Icon.BookOpenMark, new ArrayList()
             {
-               new ArrayList() { "Agenda", "Formularios/AgendaCita.aspx", "", Icon.BookTabs, null},
-               new ArrayList() { "Asignación de cubículos", "Formularios/asignacionCubiculos.aspx", "", Icon.HouseGo, null}
+               new ArrayList() { "Agenda", "Formularios/AgendaCita.aspx", "", Icon.BookTabs, null}
+               //new ArrayList() { "Asignación de cubículos", "Formularios/asignacionCubiculos.aspx", "", Icon.HouseGo, null}
             }
         };
         arbol.Add(nodo);
@@ -125,13 +125,13 @@ public partial class Main : System.Web.UI.Page
         arbol.Add(nodo);
 
         //permiso Todos
-        nodo = new ArrayList()
+        /*nodo = new ArrayList()
             { "Gestión de pacientes","#","",Icon.UserGray, new ArrayList()
                 {
                     new ArrayList() { "Ficha del paciente", "Formularios/fichaPaciente.aspx", "",Icon.FolderTable, null }
                 }
             };
-        arbol.Add(nodo);
+        arbol.Add(nodo);*/
 
         //permiso Administrador,Secretaria
         nodo = new ArrayList()
@@ -150,8 +150,8 @@ public partial class Main : System.Web.UI.Page
                 new ArrayList() { "Registro de roles", "Formularios/manttoRol.aspx", "", Icon.GroupAdd, null},
                 new ArrayList() { "Registro de Médicos", "Formularios/ManttoMedico.aspx", "", Icon.UserSuit, null},
                 new ArrayList() { "Registro de Servicios", "~/Formularios/manttoServicios.aspx", "", Icon.SitemapColor, null},
-                new ArrayList() { "Registro de Especialidades", "Formularios/manttoEspecialidad.aspx", "", Icon.RosetteBlue, null},
-                new ArrayList() { "Registro de Variables", "Formularios/manttoUsuarioUnidad.aspx", "", Icon.CogAdd, null}
+                new ArrayList() { "Registro de Especialidades", "Formularios/manttoEspecialidad.aspx", "", Icon.RosetteBlue, null}
+                //new ArrayList() { "Registro de Variables", "Formularios/manttoUsuarioUnidad.aspx", "", Icon.CogAdd, null}
             }
         };
         arbol.Add(nodo);
