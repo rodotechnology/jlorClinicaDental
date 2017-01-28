@@ -24,7 +24,7 @@ public partial class Formularios_servicios : System.Web.UI.Page
     {
         if (!txtservicios.Text.Equals("") && !txtcosto.Text.Equals(""))
         {
-            X.Msg.Confirm("Confirmar", "¿Desea Eliminar el registro?", new MessageBoxButtonsConfig
+            X.Msg.Confirm("Confirmar", "¿Desea guardar el registro?", new MessageBoxButtonsConfig
             {
                 Yes = new MessageBoxButtonConfig
                 {

@@ -119,7 +119,7 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
         { "Gestión de consultas","#","Administrador,Medico",Icon.TableGear, new ArrayList()
             {
-                new ArrayList() { "Consultas", "Formularios/consulta.aspx", "", Icon.HourglassGo, null}
+                new ArrayList() { "Consultas", "Formularios/Consulta.aspx", "", Icon.HourglassGo, null}
             }
         };
         arbol.Add(nodo);
