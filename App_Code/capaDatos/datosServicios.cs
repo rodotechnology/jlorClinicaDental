@@ -63,7 +63,7 @@ namespace capaDatos
                 {
                     while (dr.Read())
                     {
-                        var htable = new { id_servicio = dr["id_servicio"].ToString(), nombre = dr["nombre"].ToString(), costo = dr["costo"].ToString() };
+                        var htable = new { id_servicio = dr["id_servicio"].ToString(), nombre = dr["nombre"].ToString(), costo = dr["costo"].ToString(), servicioCosto = string.Format("{0}{1} {2}{3}", "-", dr["nombre"].ToString(), "$", dr["costo"].ToString()) };
                         record.Add(htable);
                     }
                 }
