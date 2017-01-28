@@ -28,11 +28,11 @@
                     <Items>
                         <ext:Panel ID="pnlAlerta" runat="server" Title="Alertas" Border="false" Layout="FitLayout">
                             <Items>
-                                <ext:GridPanel runat="server" ID="grdAlertas" Header="false" Border="false" StoreID="strAlerta" ForceFit="true">
+                                <ext:GridPanel runat="server" ID="grdAlertas" Header="false" Border="false" StoreID="strAlerta">
                                     <ColumnModel runat="server">
                                         <Columns>
                                             <ext:RowNumbererColumn runat="server" Text="#" Width="35" />
-                                            <ext:Column runat="server" Text="Alerta" DataIndex="alerta" Sortable="true" />
+                                            <ext:Column runat="server" Text="Alerta" DataIndex="alerta" Sortable="true"  Flex="1"/>
                                             <ext:Column runat="server" Text="#Cita" DataIndex="id_unico" Sortable="true" />
                                             <ext:DateColumn runat="server" Text="Fecha alerta" Width="120" Sortable="true" DataIndex="fecha_creacion" Format="dd/m/Y">
                                             </ext:DateColumn>

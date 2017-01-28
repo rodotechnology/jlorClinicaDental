@@ -75,4 +75,32 @@ public class datosAlerta
         //retorna arreglo
         return affectedrow;
     }
+
+    public Int64 insertAlerta(Int64 id_unico,string cliente)
+    {
+        Int64 id = 0;
+        SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
+        try
+        {
+            string alerta = "cita de cliente " + cliente + " # " + id_unico.ToString() + "pendiente de confirmar";
+            conn.Open();
+            string sql = "insert into alerta (alerta,fecha_creacion,id_unico) values (@alerta,getdate(),@id_unico);SELECT IDENT_CURRENT('alerta') as id;";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id_unico", id_unico);
+            cmd.Parameters.AddWithValue("@alerta", alerta);
+            id = Convert.ToInt64(cmd.ExecuteScalar());
+            cmd.Dispose();
+        }
+        catch (SqlException ex)
+        {
+            //return "Error al intentar enviar los datos:" + ex;
+            return id;
+        }
+        finally
+        {
+            conn.Close();
+            conn.Dispose();
+        }
+        return id;
+    }
 }
