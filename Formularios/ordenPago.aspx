@@ -25,8 +25,9 @@
             <Model>
                 <ext:Model ID="Model1" runat="server">
                     <Fields>
-                        <ext:ModelField Name="id_rol" />
-                        <ext:ModelField Name="rol" />
+                        <ext:ModelField Name="consulta" />
+                        <ext:ModelField Name="paciente" />
+                        <ext:ModelField Name="monto" />
                     </Fields>
                 </ext:Model>
             </Model>
@@ -36,10 +37,9 @@
                 <ext:Model ID="Model2" runat="server" IDProperty="id_servicio">
                     <Fields>
                         <ext:ModelField Name="id_servicio" />
-                        <ext:ModelField Name="servicio" />
+                        <ext:ModelField Name="nombre" />
+                        <ext:ModelField Name="costo" />
                         <ext:ModelField Name="cantidad" />
-                        <ext:ModelField Name="monto" />
-                        <ext:ModelField Name="total" />
                     </Fields>
                 </ext:Model>
             </Model>
@@ -62,17 +62,17 @@
                     </TopBar>
                     <ColumnModel ID="ColumnModel1" runat="server">
                         <Columns>
-                            <ext:Column ID="C1" runat="server" Text="Código" DataIndex="id_factura" Width="80" Align="Center" />
+                            <ext:Column ID="C1" runat="server" Text="Código" DataIndex="consulta" Width="80" Align="Center" />
                             <ext:Column ID="C2" runat="server" Text="Nombre" DataIndex="paciente" Flex="1" />
                             <ext:Column ID="C3" runat="server" Text="Monto" DataIndex="monto" Width="100" Align="Center" />
                             <ext:CommandColumn ID="CommandColumn1" runat="server" Width="125" Text="Acciones" Align="Center">
                                 <Commands>
-                                    <ext:GridCommand Icon="LockEdit" CommandName="Editar" Text="Editar">
-                                        <ToolTip Text="Editar Rol" />
+                                    <ext:GridCommand Icon="Money" CommandName="Facturar" Text="Facturar">
+                                        <ToolTip Text="Facturar" />
                                     </ext:GridCommand>
                                 </Commands>
                                 <Listeners>
-                                    <Command Handler="App.direct.accionComando(command, record.data.id_factura);" />
+                                    <Command Handler="App.direct.accionComando(command, record.data.consulta);" />
                                 </Listeners>
                             </ext:CommandColumn>
                         </Columns>
@@ -110,31 +110,31 @@
                 </ext:GridPanel>
             </Items>
         </ext:Viewport>
-        <ext:Window ID="winFactura" runat="server" Title="Factura" Icon="CoinsAdd" Width="500" Height="520" Closable="false" Layout="FitLayout">
+        <ext:Window ID="winFactura" runat="server" Title="Factura" Icon="CoinsAdd" Width="500" Height="520" Closable="false" Layout="FitLayout" Hidden="true">
             <Items>
                 <ext:FormPanel runat="server" BodyPadding="5" DefaultAnchor="100%">
                     <Items>
-                        <ext:Hidden runat="server" ID="id_consulta" />
+                        <ext:TextField runat="server" ID="hdnIdConsulta" FieldLabel="idConsulta" Editable="false" AnchorHorizontal="98%" Hidden="true" />
                         <ext:DateField runat="server" ID="txtFecha" FieldLabel="Fecha" Editable="false" AnchorHorizontal="98%" />
                         <ext:TextField runat="server" ID="txtCliente" FieldLabel="Cliente" Editable="false" AnchorHorizontal="98%" />
                         <ext:TextField runat="server" ID="txtMedico" FieldLabel="Medico" Editable="false" AnchorHorizontal="98%" />
                         <ext:GridPanel runat="server" ID="grdDetalleFactura" StoreID="strDetalleFactura" AnchorHorizontal="98%" Height="300">
                             <ColumnModel runat="server">
                                 <Columns>
-                                    <ext:Column ID="servicio" runat="server" Text="Servicio" DataIndex="servicio" Flex="1" />
+                                    <ext:Column ID="servicio" runat="server" Text="Servicio" DataIndex="nombre" Flex="1" />
                                     <ext:Column ID="cantidad" runat="server" Text="Cantidad" DataIndex="cantidad" />
-                                    <ext:Column ID="monto" runat="server" Text="v. Unitario" DataIndex="monto" />
-                                    <ext:Column ID="total" runat="server" Text="Monto" DataIndex="total" />
+                                    <ext:Column ID="monto" runat="server" Text="v. Unitario" DataIndex="costo" />
+                                    <ext:Column ID="total" runat="server" Text="Monto" DataIndex="costo" />
                                 </Columns>
                             </ColumnModel>
-                            <BottomBar>
+                            <%--                            <BottomBar>
                                 <ext:Toolbar runat="server">
                                     <Items>
                                         <ext:ToolbarFill />
                                         <ext:TextField runat="server" ID="txtTotal" Width="100" />
                                     </Items>
                                 </ext:Toolbar>
-                            </BottomBar>
+                            </BottomBar>--%>
                         </ext:GridPanel>
                     </Items>
                 </ext:FormPanel>
@@ -148,7 +148,11 @@
                             </Listeners>
                         </ext:Button>
                         <ext:ToolbarFill />
-                        <ext:Button runat="server" ID="btnAddFactura" Text="Aceptar" Icon="Accept"></ext:Button>
+                        <ext:Button runat="server" ID="btnAddFactura" Text="Facturar" Icon="Accept">
+                            <Listeners>
+                                <Click Handler="App.direct.setFactura();" />
+                            </Listeners>
+                        </ext:Button>
                     </Items>
                 </ext:Toolbar>
             </BottomBar>

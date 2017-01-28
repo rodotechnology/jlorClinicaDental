@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Data.SqlClient;
 using System.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 /// <summary>
 /// Descripción breve de datosPago
@@ -17,9 +14,6 @@ namespace capaDatos
         SqlCommand cmd;
         SqlDataReader dr;
 
-        Hashtable encabezado = new Hashtable();
-        Array detalle = null;
-
         public datosPago()
         {
             //
@@ -31,7 +25,8 @@ namespace capaDatos
         {
             ArrayList records = new ArrayList();
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
-            string sql = "SELECT CLIENTE.nombre, CLIENTE.apellidos, FACTURA.monto, FACTURA.id_factura FROM CLIENTE INNER JOIN FACTURA ON CLIENTE.id_cliente = FACTURA.id_cliente WHERE (FACTURA.fecha_factura = GETDATE()) AND (FACTURA.estado = 0)";
+            //string sql = "SELECT CLIENTE.nombre, CLIENTE.apellidos, FACTURA.monto, FACTURA.id_factura FROM CLIENTE INNER JOIN FACTURA ON CLIENTE.id_cliente = FACTURA.id_cliente WHERE (FACTURA.fecha_factura = GETDATE()) AND (FACTURA.estado = 0)";
+            string sql = "SELECT CONSULTA.id_consulta, CLIENTE.nombre AS ncliente, CLIENTE.apellidos AS acliente, MEDICO.nombre AS nmedico, MEDICO.apellidos AS amedico, CONSULTA.fecha_fin, SUM(SERVICIOS.costo) AS monto FROM CONSULTA INNER JOIN CLIENTE ON CONSULTA.id_cliente = CLIENTE.id_cliente INNER JOIN MEDICO ON CONSULTA.id_medico = MEDICO.id_medico INNER JOIN DETALLE_CONSULTA ON CONSULTA.id_consulta = DETALLE_CONSULTA.id_consulta INNER JOIN SERVICIOS ON DETALLE_CONSULTA.id_servicio = SERVICIOS.id_servicio WHERE(CONSULTA.estado = 1) GROUP BY CONSULTA.id_consulta, CLIENTE.nombre, MEDICO.nombre, CONSULTA.fecha_fin, CLIENTE.apellidos, MEDICO.apellidos";
             SqlCommand cmd = new SqlCommand(sql, conn);
             SqlDataReader mydr = null;
             try
@@ -42,7 +37,7 @@ namespace capaDatos
                 {
                     while (mydr.Read())
                     {
-                        records.Add(new { paciente = mydr["nombre"].ToString() + " " + mydr["apellidos"].ToString(), monto = mydr["monto"].ToString(), factura = mydr["id_factura"].ToString() });
+                        records.Add(new { paciente = mydr["ncliente"].ToString() + " " + mydr["acliente"].ToString(), monto = mydr["monto"].ToString(), consulta = mydr["id_consulta"].ToString() });
                     }
                 }
             }
@@ -60,15 +55,17 @@ namespace capaDatos
         }
 
 
-        public datosPago(string idconsulta)
+        public Hashtable datosFactura(string idconsulta)
         {
+            Hashtable r = new Hashtable();
+            Hashtable encabezado = new Hashtable();
+            ArrayList record = new ArrayList();
+
             try
             {
-                encabezado = new Hashtable();
-
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
                 conn.Open();
-                string sql = "SELECT cliente,medico, fecha_fin from consulta,medico,cliente where consulta.id_cliente=cliente.id_cliente and consulta.id_medico=medico.id_medico and consulta.id_consulta=@idconsulta";
+                string sql = "SELECT cliente.nombre +' '+ cliente.apellidos as cliente,medico.nombre +' '+ medico.apellidos as medico, fecha_fin from consulta,medico,cliente where consulta.id_cliente=cliente.id_cliente and consulta.id_medico=medico.id_medico and consulta.id_consulta=@idconsulta";
                 cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@idconsulta", idconsulta);
                 dr = cmd.ExecuteReader();
@@ -82,8 +79,6 @@ namespace capaDatos
 
                 dr.Close(); cmd.Dispose();
 
-
-                ArrayList record = new ArrayList();
                 sql = "select servicios.id_servicio, nombre, costo from servicios,detalle_consulta where servicios.id_servicio=detalle_consulta.id_servicio and detalle_consulta.id_consulta=@idconsulta";
                 cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@idconsulta", idconsulta);
@@ -92,12 +87,14 @@ namespace capaDatos
                 {
                     while (dr.Read())
                     {
-                        var htable = new { id_servicio = dr["id_servicio"].ToString(), nombre = dr["nombre"].ToString(), costo = dr["costo"].ToString() };
+                        var htable = new { id_servicio = dr["id_servicio"].ToString(), nombre = dr["nombre"].ToString(), cantidad = 1, costo = dr["costo"].ToString() };
                         record.Add(htable);
                     }
                 }
                 dr.Close(); dr.Dispose(); cmd.Dispose();
-                detalle = record.ToArray();
+
+                r.Add("encabezado", encabezado);
+                r.Add("detalle", record.ToArray());
 
                 //Cierre de Conexiones
                 conn.Close(); conn.Dispose();
@@ -105,16 +102,40 @@ namespace capaDatos
             catch (Exception ex)
             {
             }
+            return r;
         }
 
-        public Hashtable getEncabezado()
+        public bool setFactura(string IdConsulta)
         {
-            return encabezado;
-        }
+            bool ok = false;
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd;
 
-        public Array getDetalle()
-        {
-            return detalle;
+                string updateRol = "UPDATE consulta SET estado = 2 WHERE id_consulta = @id_consulta";
+                cmd = new SqlCommand(updateRol, conn);
+
+                cmd.Parameters.AddWithValue("@id_consulta", Convert.ToInt64(IdConsulta));
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                ok = true;
+            }
+            catch (SqlException ex)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
+            return ok;
         }
     }
 }

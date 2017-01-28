@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using capaDatos;
+
 
 /// <summary>
 /// Descripción breve de ordenPago
@@ -8,6 +10,10 @@ namespace capaNegocios
 {
     public class ordenPago
     {
+
+        Hashtable encabezado = new Hashtable();
+        Array detalle = null;
+
         public ordenPago()
         {
             //
@@ -23,10 +29,13 @@ namespace capaNegocios
 
         public void obtenerFactura(string id_consulta)
         {
-            datosPago factura = new datosPago(id_consulta);
+            datosPago factura = new datosPago();
+            Hashtable datos = factura.datosFactura(id_consulta);
 
-            /*Hashtable encabezado = factura.getEncabezado();
-            strDetalleFactura.DataSource = factura.getDetalle();
+
+            encabezado = (Hashtable)datos["encabezado"];
+            detalle = (Array)datos["detalle"];
+            /*strDetalleFactura.DataSource = factura.getDetalle();
             strDetalleFactura.DataBind();
 
             txtCliente.SetText(encabezado["cliente"].ToString());
@@ -34,6 +43,23 @@ namespace capaNegocios
             txtFecha.SetText(encabezado["fecha"].ToString());*/
 
 
+        }
+
+
+        public Hashtable getEncabezado()
+        {
+            return encabezado;
+        }
+
+        public Array getDetalle()
+        {
+            return detalle;
+        }
+
+        public bool setFactura(string IdConsulta)
+        {
+            datosPago objPago = new datosPago();            
+            return objPago.setFactura(IdConsulta);
         }
     }
 }

@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
 </head>
 <body>
@@ -24,61 +24,58 @@
         </ext:Store>
         <ext:Viewport runat="server" Layout="BorderLayout">
             <Items>
-                <ext:TabPanel runat="server" Region="Center">
+
+                <ext:Panel ID="pnlAlerta" runat="server" Border="false" Layout="FitLayout" Region="Center">
                     <Items>
-                        <ext:Panel ID="pnlAlerta" runat="server" Title="Alertas" Border="false" Layout="FitLayout">
-                            <Items>
-                                <ext:GridPanel runat="server" ID="grdAlertas" Header="false" Border="false" StoreID="strAlerta">
-                                    <ColumnModel runat="server">
-                                        <Columns>
-                                            <ext:RowNumbererColumn runat="server" Text="#" Width="35" />
-                                            <ext:Column runat="server" Text="Alerta" DataIndex="alerta" Sortable="true"  Flex="1"/>
-                                            <ext:Column runat="server" Text="#Cita" DataIndex="id_unico" Sortable="true" />
-                                            <ext:DateColumn runat="server" Text="Fecha alerta" Width="120" Sortable="true" DataIndex="fecha_creacion" Format="dd/m/Y">
-                                            </ext:DateColumn>
-                                            <ext:CommandColumn runat="server" Width="160">
-                                                <Commands>
-                                                    <ext:GridCommand Icon="UserAlert" CommandName="oAlerta" Text="Eliminar" />
-                                                </Commands>
-                                                <Listeners>
-                                                    <Command Handler="App.direct.accionComando(command, record.data.id_alerta);" />
-                                                </Listeners>
-                                            </ext:CommandColumn>
-                                        </Columns>
-                                    </ColumnModel>
-                                    <Plugins>
-                                        <ext:GridFilters runat="server" />
-                                    </Plugins>
-                                    <BottomBar>
-                                        <ext:PagingToolbar runat="server">
+                        <ext:GridPanel runat="server" ID="grdAlertas" Header="false" Border="false" StoreID="strAlerta">
+                            <ColumnModel runat="server">
+                                <Columns>
+                                    <ext:RowNumbererColumn runat="server" Text="#" Width="35" />
+                                    <ext:Column runat="server" Text="Alerta" DataIndex="alerta" Sortable="true" Flex="1" />
+                                    <ext:Column runat="server" Text="#Cita" DataIndex="id_unico" Sortable="true" />
+                                    <ext:DateColumn runat="server" Text="Fecha alerta" Width="120" Sortable="true" DataIndex="fecha_creacion" Format="dd/m/Y">
+                                    </ext:DateColumn>
+                                    <ext:CommandColumn runat="server" Width="160">
+                                        <Commands>
+                                            <ext:GridCommand Icon="UserAlert" CommandName="oAlerta" Text="Eliminar" />
+                                        </Commands>
+                                        <Listeners>
+                                            <Command Handler="App.direct.accionComando(command, record.data.id_alerta);" />
+                                        </Listeners>
+                                    </ext:CommandColumn>
+                                </Columns>
+                            </ColumnModel>
+                            <Plugins>
+                                <ext:GridFilters runat="server" />
+                            </Plugins>
+                            <BottomBar>
+                                <ext:PagingToolbar runat="server">
+                                    <Items>
+                                        <ext:Label runat="server" Text="Page size:" />
+                                        <ext:ToolbarSpacer runat="server" Width="10" />
+                                        <ext:ComboBox runat="server" Width="80">
                                             <Items>
-                                                <ext:Label runat="server" Text="Page size:" />
-                                                <ext:ToolbarSpacer runat="server" Width="10" />
-                                                <ext:ComboBox runat="server" Width="80">
-                                                    <Items>
-                                                        <ext:ListItem Text="15" />
-                                                        <ext:ListItem Text="30" />
-                                                        <ext:ListItem Text="40" />
-                                                        <ext:ListItem Text="50" />
-                                                    </Items>
-                                                    <SelectedItems>
-                                                        <ext:ListItem Value="15" />
-                                                    </SelectedItems>
-                                                    <Listeners>
-                                                        <Select Handler="#{grdAlertas}.store.pageSize = parseInt(this.getValue(), 15); #{grdAlertas}.store.reload();" />
-                                                    </Listeners>
-                                                </ext:ComboBox>
+                                                <ext:ListItem Text="15" />
+                                                <ext:ListItem Text="30" />
+                                                <ext:ListItem Text="40" />
+                                                <ext:ListItem Text="50" />
                                             </Items>
-                                            <Plugins>
-                                                <ext:ProgressBarPager runat="server" />
-                                            </Plugins>
-                                        </ext:PagingToolbar>
-                                    </BottomBar>
-                                </ext:GridPanel>
-                            </Items>
-                        </ext:Panel>
+                                            <SelectedItems>
+                                                <ext:ListItem Value="15" />
+                                            </SelectedItems>
+                                            <Listeners>
+                                                <Select Handler="#{grdAlertas}.store.pageSize = parseInt(this.getValue(), 15); #{grdAlertas}.store.reload();" />
+                                            </Listeners>
+                                        </ext:ComboBox>
+                                    </Items>
+                                    <Plugins>
+                                        <ext:ProgressBarPager runat="server" />
+                                    </Plugins>
+                                </ext:PagingToolbar>
+                            </BottomBar>
+                        </ext:GridPanel>
                     </Items>
-                </ext:TabPanel>
+                </ext:Panel>
             </Items>
         </ext:Viewport>
     </form>

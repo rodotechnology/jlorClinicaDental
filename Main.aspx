@@ -112,15 +112,16 @@
                         </ext:Toolbar>
                     </BottomBar>
                     <Buttons>
-                        <ext:Button ID="logout" runat="server" Href="Index.aspx" HrefTarget="_self" Icon="DoorOut" Text="Cerrar sesión" UI="Danger"  />
+                        <ext:Button ID="logout" runat="server" Href="Index.aspx" HrefTarget="_self" Icon="DoorOut" Text="Cerrar sesión" UI="Danger" />
                     </Buttons>
                 </ext:TreePanel>
                 <ext:TabPanel ID="mTabs" runat="server" Region="Center" ActiveTabIndex="0" Border="false" Layout="FitLayout">
                     <Items>
                         <ext:Panel ID="Tab1" runat="server" Closable="false" Title="Alertas" Icon="Monitor" Layout="fit">
-                            <Content>
-                                <ext:Panel ID="Panel1" runat="server" Layout="fit">
-                                    <Content>
+<%--                            <Content>
+                                <ext:Panel ID="Panel1" runat="server" AutoScroll="true">--%>
+
+                                    <%--                                    <Content>
                                         <ext:Panel ID="DashBoardPanel" runat="server" Cls="items-view" ShrinkWrap="Height" Border="false">
                                             <TopBar>
                                                 <ext:Toolbar ID="Toolbar2" runat="server" Flat="true">
@@ -186,15 +187,18 @@
                                                         </Html>
                                                     </Tpl>
                                                     <Listeners>
-                                                        <%--<ItemClick Fn="itemClick" />--%>
+                                                        <!--<ItemClick Fn="itemClick" />-->
                                                         <Refresh Handler="this.el.select('.item-wrap').addClsOnOver('x-view-over');" Delay="100" />
                                                     </Listeners>
                                                 </ext:DataView>
                                             </Items>
                                         </ext:Panel>
-                                    </Content>
-                                </ext:Panel>
-                            </Content>
+                                    </Content>--%>
+<%--                                </ext:Panel>
+                            </Content>--%>
+                            <Loader runat="server" Url="Formularios/Alertas.aspx" Mode="Frame">
+                                <LoadMask ShowMask="true" Msg="Cargando..." />
+                            </Loader>
                         </ext:Panel>
                     </Items>
                     <%--<Items>

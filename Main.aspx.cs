@@ -108,7 +108,7 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
         { "Gestión de citas","#","Administrador,Secretaria",Icon.BookOpenMark, new ArrayList()
             {
-               new ArrayList() { "Agenda", "Formularios/AgendaCita.aspx", "", Icon.BookTabs, null}
+               new ArrayList() { "Confirmar cita", "Formularios/Confirmacion.aspx", "", Icon.BookTabs, null}
                //new ArrayList() { "Asignación de cubículos", "Formularios/asignacionCubiculos.aspx", "", Icon.HouseGo, null}
             }
         };
