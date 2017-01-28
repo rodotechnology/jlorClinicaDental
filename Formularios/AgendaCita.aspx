@@ -10,7 +10,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <ext:ResourceManager ID="rm" runat="server" Namespace="CompanyX" Locale="es-ES"/>
+        <ext:ResourceManager ID="rm" runat="server" Namespace="CompanyX"/>
         <ext:Store runat="server" ID="strServicio">
             <Model>
                 <ext:Model runat="server" IDProperty="id_servicio">

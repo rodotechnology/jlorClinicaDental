@@ -38,7 +38,7 @@ public class clienteAgenda
         #region
         List<string> listaCitas = objDatos.getEventosRegistrados(Convert.ToDateTime(row["finicio"].ToString()), Convert.ToDateTime(row["finicio"].ToString()), Convert.ToInt64(row["cbxMedico"].ToString()));
 
-        DateTime hora_fin = Convert.ToDateTime(row["hinicio"].ToString());
+        DateTime hora_fin = Convert.ToDateTime(row["hinicio"].ToString().Replace(" a.m.","").Replace(" p.m.",""));
         hora_fin = hora_fin.AddMinutes(30);
 
         ArrayList proporner = new ArrayList();
@@ -58,6 +58,7 @@ public class clienteAgenda
         if (ejecutar)
         {
             encontradas = ContainsRango(ref listaCitas, row["hinicio"].ToString().Substring(0, 5), String.Format("{0:t}", hora_fin).Substring(0, 5));
+            if (encontradas.Count == 0) { ejecutar = false; }
         }
         #endregion
 

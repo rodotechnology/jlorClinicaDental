@@ -22,7 +22,7 @@ public class datosCliente
         {
             conn.Open();
             //sentencia a ejecutar
-            string sql = "insert into CLIENTE (nombre,apellidos,telefono,correo,dui) values (@nombre,@apellidos,@telefono,@correo,@dui);SELECT IDENT_CURRENT('CLIENTE') as id;";
+            string sql = "insert into CLIENTE (nombre,apellidos,telefono,correo,dui,id_tipo_cliente) values (@nombre,@apellidos,@telefono,@correo,@dui,0);SELECT IDENT_CURRENT('CLIENTE') as id;";
             SqlCommand cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@nombre", nombre);
             cmd.Parameters.AddWithValue("@apellidos", apellidos);
