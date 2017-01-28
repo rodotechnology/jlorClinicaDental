@@ -12,6 +12,7 @@ namespace capaNegocios
     public class consulta
     {
         datosDiente objDatos = new datosDiente();
+        datosConsulta objDatosConsulta = new datosConsulta();
         public consulta()
         {
             //
@@ -21,6 +22,13 @@ namespace capaNegocios
         public Array selectAllItems(string filtro)
         {
             return objDatos.dbSelectFiltroItems(filtro);
+        }
+
+        public Array selectAllItemsConsulta() {
+            return objDatosConsulta.dbSelectAllItemsConsulta();
+        }
+        public void finalizarConsulta(string idConsulta) {
+            objDatosConsulta.dbFinalizarConsulta(idConsulta);
         }
     }
 }
