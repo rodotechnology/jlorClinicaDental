@@ -51,7 +51,7 @@
                                             <ext:CommandColumn runat="server" Width="160">
                                                 <Commands>
                                                     <ext:GridCommand Icon="Tick" CommandName="oConfirmar" Text="Confirmar" />
-                                                    <ext:CommandSeparator />
+                                                    <ext:CommandSeparator/>
                                                     <ext:GridCommand Icon="Delete" CommandName="oEliminar" Text="Eliminar" />
                                                 </Commands>
                                                 <Listeners>
@@ -60,9 +60,6 @@
                                             </ext:CommandColumn>
                                         </Columns>
                                     </ColumnModel>
-                                    <View>
-                                        <ext:GridView runat="server" LoadMask="false" />
-                                    </View>
                                     <Plugins>
                                         <ext:GridFilters runat="server" />
                                     </Plugins>
