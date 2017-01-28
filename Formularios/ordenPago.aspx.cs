@@ -18,7 +18,7 @@ public partial class Formularios_ordenPago : System.Web.UI.Page
 
     public void obtenerFactura(string id_consulta)
     {
-        datosPago factura = new datosPago(id_consulta);
+        /*datosPago factura = new datosPago(id_consulta);
 
         Hashtable encabezado = factura.getEncabezado();
         strDetalleFactura.DataSource = factura.getDetalle();
@@ -26,7 +26,7 @@ public partial class Formularios_ordenPago : System.Web.UI.Page
 
         txtCliente.SetText(encabezado["cliente"].ToString());
         txtMedico.SetText(encabezado["medico"].ToString());
-        txtFecha.SetText(encabezado["fecha"].ToString());
+        txtFecha.SetText(encabezado["fecha"].ToString());*/
 
 
     }
