@@ -128,7 +128,7 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
             { "Gestión de pacientes","#","",Icon.UserGray, new ArrayList()
                 {
-                    new ArrayList() { "Ficha del paciente", "Formularios/fichaPaciente", "",Icon.FolderTable, null }
+                    new ArrayList() { "Ficha del paciente", "Formularios/fichaPaciente.aspx", "",Icon.FolderTable, null }
                 }
             };
         arbol.Add(nodo);
@@ -137,7 +137,7 @@ public partial class Main : System.Web.UI.Page
         nodo = new ArrayList()
             { "Gestión de pagos","#","Administrador,Secretaria",Icon.Money, new ArrayList()
                 {
-                    new ArrayList() { "Orden de Pago", "http://isaf.ufg.edu.sv/planilla/Planilla/Reportes/rptAccionesMensualDocentesHC.aspx", "",Icon.MoneyDollar,null}
+                    new ArrayList() { "Orden de Pago", "Formularios/ordenPago.aspx", "",Icon.MoneyDollar,null}
                 }
             };
         arbol.Add(nodo);

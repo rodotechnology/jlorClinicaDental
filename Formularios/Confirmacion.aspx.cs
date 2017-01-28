@@ -75,6 +75,7 @@ public partial class Formularios_Confirmacion : System.Web.UI.Page
     [DirectMethod]
     public void confirmarCita(string id_cita, string id_cliente)
     {
+        //agregando la cita confirmada a la consulta
         if (objNegocio.setInsertClienteConsulta(Convert.ToInt64(id_cita), Convert.ToInt64(id_cliente)) > 0)
         {
             recargarGrid();
@@ -89,6 +90,15 @@ public partial class Formularios_Confirmacion : System.Web.UI.Page
     [DirectMethod]
     public void eliminarCita(string id_cita, string id_cliente)
     {
-
+        //agregando la cita confirmada a la consulta
+        if (objNegocio.setEliminarClienteCita(Convert.ToInt64(id_cita), Convert.ToInt64(id_cliente)) > 0)
+        {
+            recargarGrid();
+            X.Msg.Alert("Exito", "Sea eliminado.").Show();
+        }
+        else
+        {
+            X.Msg.Alert("Mensaje", "La cita no fue eliminada").Show();
+        }
     }
 }

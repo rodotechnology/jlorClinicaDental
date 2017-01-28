@@ -39,6 +39,7 @@ public partial class Vista_Cita : System.Web.UI.Page
         if (objCita.setInsertClienteCita(data) > 0)
         {
             X.Msg.Alert("Exito", "se ha guardado la cita").Show();
+            this.winRegistroCita.Hide();
         }
         else
         {
@@ -49,7 +50,7 @@ public partial class Vista_Cita : System.Web.UI.Page
     [DirectMethod]
     public void actualizarCalendario()
     {
-        this.winRegistroCita.Hide();
+        this.CalendarPanel1.EventStore.RemoveAll();
         clienteAgenda objServicios = new clienteAgenda();
         CalendarPanel1.EventStore.DataSource = objServicios.getColeccionCitas();
         CalendarPanel1.EventStore.DataBind();
