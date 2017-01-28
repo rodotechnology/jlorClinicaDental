@@ -44,18 +44,15 @@
                             ValueField="id_especialidad"
                             Width="325">
                             <Store>
-                                <ext:Store runat="server" ID="StoreEspecialidad" AutoDataBind="true">
+                                <ext:Store runat="server" ID="StoreEspecialidad">
                                     <Model>
-                                        <ext:Model runat="server">
+                                        <ext:Model runat="server" IDProperty="id_especialidad">
                                             <Fields>
                                                 <ext:ModelField Name="id_especialidad" />
                                                 <ext:ModelField Name="nombre" />
                                             </Fields>
                                         </ext:Model>
                                     </Model>
-                                    <Reader>
-                                        <ext:ArrayReader />
-                                    </Reader>
                                 </ext:Store>
                             </Store>
                         </ext:ComboBox>
@@ -66,9 +63,9 @@
                             ValueField="id_horario"
                             Width="325">
                             <Store>
-                                <ext:Store runat="server" ID="StoreHorarios" AutoDataBind="true">
+                                <ext:Store runat="server" ID="StoreHorarios">
                                     <Model>
-                                        <ext:Model runat="server">
+                                        <ext:Model runat="server" IDProperty="id_horario">
                                             <Fields>
                                                 <ext:ModelField Name="id_horario" />
                                                 <ext:ModelField Name="raw" />
@@ -113,9 +110,9 @@
                     ColumnWidth="0.6"
                     Height="400">
                     <Store>
-                        <ext:Store ID="Store1" runat="server">
+                        <ext:Store ID="strMedico" runat="server">
                             <Model>
-                                <ext:Model runat="server">
+                                <ext:Model runat="server" IDProperty="id_medico">
                                     <Fields>
                                         <ext:ModelField Name="nombre" />
                                         <ext:ModelField Name="apellidos"/>
@@ -130,7 +127,7 @@
                     <ColumnModel runat="server">
                         <Columns>
                             <ext:Column runat="server" Text="Nombre Medico" DataIndex="nombre" Flex="1" />
-                            <ext:Column runat="server" Text="Apellidos Medico" DataIndex="apellidos" Flex="1" />
+                            <ext:Column runat="server" Text="Apellidos Medico" DataIndex="apellidos" Flex="1"  Hidden="true"/>
                             <ext:Column runat="server" Text="telefono" DataIndex="telefono" Flex="1"/>
                             <ext:Column runat="server" Text="celular" DataIndex="celular" Flex="1"/>
                             <ext:Column runat="server" Text="Titulo Acd." DataIndex="titulo" Flex="1" />
@@ -146,7 +143,7 @@
 
         </ext:FormPanel>
     </form>
-    
+
 </body>
 </html>
 
