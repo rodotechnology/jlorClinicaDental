@@ -89,16 +89,17 @@ public class datosConfirmacion
         return citas;
     }
 
-    public Int32 updateTipoCliente(Int64 id_cliente)
+    public Int32 updateTipoCliente(Int64 id_cliente, Int16 estado)
     {
         Int32 affectedrow = 0;
         SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
         try
         {
             conn.Open();
-            string sql = "update CLIENTE set id_tipo_cliente=1 where id_cliente=@id_cliente";
+            string sql = "update CLIENTE set id_tipo_cliente=@id_tipo_cliente where id_cliente=@id_cliente";
             SqlCommand cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@id_cliente", id_cliente);
+            cmd.Parameters.AddWithValue("@id_tipo_cliente", estado);
             cmd.Dispose();
             affectedrow = cmd.ExecuteNonQuery();
         }
@@ -114,16 +115,17 @@ public class datosConfirmacion
         return affectedrow;
     }
 
-    public Int32 updateEstadoConfirmadaCita(Int64 id_cita)
+    public Int32 updateEstadoConfirmadaCita(Int64 id_cita, Int64 id_estado_cita)
     {
         Int32 affectedrow = 0;
         SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
         try
         {
             conn.Open();
-            string sql = "update CITA set id_estado_cita=1 where id_cita=@id_cita";//confirmada
+            string sql = "update CITA set id_estado_cita=@id_estado_cita where id_cita=@id_cita";//confirmada
             SqlCommand cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@id_cita", id_cita);
+            cmd.Parameters.AddWithValue("@id_estado_cita", id_estado_cita);
             cmd.Dispose();
             affectedrow = cmd.ExecuteNonQuery();
         }
