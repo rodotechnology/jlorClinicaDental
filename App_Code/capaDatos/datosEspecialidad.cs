@@ -18,6 +18,8 @@ namespace capaDatos
         SqlConnection conn = new SqlConnection();
         SqlCommand cmd;
         SqlDataReader dr;
+        //Instanciando a la case DAO
+        datosServiciosEspecialidad objServiciosEspecialidad = new datosServiciosEspecialidad();
         public datosEspecialidad()
         {
             //
@@ -44,12 +46,10 @@ namespace capaDatos
                 string idEspecialidad = cmd.ExecuteScalar().ToString();
 
                 //Cierre de conexiones
-                
+
                 conn.Close();
                 conn.Dispose();
                 cmd.Dispose();
-
-                datosServiciosEspecialidad objServiciosEspecialidad = new datosServiciosEspecialidad();
                 objServiciosEspecialidad.dbSaveItems(idEspecialidad, idServicio);
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace capaDatos
                 {
                     while (dr.Read())
                     {
-                        var htable = new { id_especialidad = dr["id_especialidad"].ToString(), nombre = dr["Especialidad"].ToString(), nomServicio = dr["Servicio"].ToString(), idServicios=dr["id_servicio"].ToString() };
+                        var htable = new { id_especialidad = dr["id_especialidad"].ToString(), nombre = dr["Especialidad"].ToString(), nomServicio = dr["Servicio"].ToString(), idServicios = dr["id_servicio"].ToString() };
                         record.Add(htable);
                     }
                 }
@@ -94,7 +94,7 @@ namespace capaDatos
 
         public void dbDeleteItems(string idEspecialidad)
         {
-            
+
             try
             {
                 //Eliminando los registro de la tabla Especialidad
@@ -104,7 +104,7 @@ namespace capaDatos
                 cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@idEspecialidad", idEspecialidad);
                 cmd.ExecuteNonQuery();
-           //Limpiando Variable
+                //Limpiando Variable
                 cmd.Dispose();
                 sql = "DELETE FROM SERVICIO_ESPECIALIDAD WHERE id_especialidad=@idEspecialidad";
                 cmd = new SqlCommand(sql, conn);
@@ -114,6 +114,7 @@ namespace capaDatos
                 conn.Close();
                 conn.Dispose();
                 cmd.Dispose();
+                X.Msg.Alert("Exito", "Sea eliminado el regitro.").Show();
             }
             catch (Exception ex)
             {
@@ -121,18 +122,27 @@ namespace capaDatos
             }
         }
 
-        public void dbUpdateData(string id_especialidad, string nombre)
+        public void dbUpdateData(string id_especialidad, string nombre, string id_Servicio)
         {
             try
             {
-                //Modificando los registros de la tabla 
+                //Modificando los registros de la tabla EPECIALIDAD
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString;
                 conn.Open();
-                string sql = "UPDATE EPECIALIDAD SET nombre=@nombre WHERE id_especialidad=@idEspecialidad";
+                string sql = "UPDATE EPECIALIDAD SET nombre=@nombre WHERE id_especialidad=@idEspecialidad;";
                 cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@idEspecialidad", id_especialidad);
                 cmd.ExecuteNonQuery();
+
+                //Cierre de conexiones
+                cmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+                //LLamando al método para modificar los registros
+                objServiciosEspecialidad.dbUpdateData(id_especialidad, id_Servicio);
+
             }
             catch (Exception ex)
             {

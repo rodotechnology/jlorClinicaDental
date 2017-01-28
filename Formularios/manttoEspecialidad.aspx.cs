@@ -23,13 +23,45 @@ public partial class Formularios_MattoEspecialidad : System.Web.UI.Page
     }
 
     [DirectMethod]
+    public void mgsConfirmarSave()
+    {
+        //Validando que los campos no se envien vacios
+        if (!txtNombre.Text.Equals("") && !cbxServicios.SelectedItem.Value.Equals(""))
+        {
+
+            X.Msg.Confirm("Confirmar", "¿Desea guardar el registro?", new MessageBoxButtonsConfig
+            {
+                Yes = new MessageBoxButtonConfig
+                {
+                    //LLamando al metodo para guardar el registro
+                    Handler = "App.direct.guardar()",
+                    Text = "Sí"
+                },
+                No = new MessageBoxButtonConfig
+                {
+                    Text = "No",
+
+                }
+            }).Show();
+        }
+        else
+        {
+            X.Msg.Alert("Error", "Verifique que no hayan campos vacios.").Show();
+        }
+    }
+
+
+    [DirectMethod]
     public void guardar()
     {
-        //manttoServicios obj = new manttoServicios();
+
+        //Enviando los datos para guardar
         objNegocio.saveItems(txtNombre.Text, cbxServicios.SelectedItem.Value);
         SelectRegistros();
+        limpiandoCampos();
         this.txtNombre.Focus();
         X.Msg.Alert("Exito", "Sea guardado el regitro.").Show();
+
     }
 
 
@@ -42,29 +74,73 @@ public partial class Formularios_MattoEspecialidad : System.Web.UI.Page
             this.txtIdEspecialidad.Text = idEspecialidad;
             this.txtNombre.Text = nombre;
             this.cbxServicios.SetValue(idServicios);
-            //this.txtNombre.Text = nombre;
-            //this.cbxServicios.SetValue(;
-            //this.txtIDServicio.Text = idRegistro;
 
-            //this.btnGuardar.Hidden = true;
-            //this.btnUpdate.Hidden = false;
+            this.btnGuardar.Hidden = true;
+            this.btnUpdate.Hidden = false;
         }
-        else if(command.Equals("Eliminar"))
+        else if (command.Equals("Eliminar"))
         {
-            objNegocio.msgConfirmacion(idEspecialidad);
-            SelectRegistros();
-            X.Msg.Alert("Exito", "Sea eliminado el regitro.").Show();
+
+            X.Msg.Confirm("Confirmar", "¿Desea Eliminar el registro?", new MessageBoxButtonsConfig
+            {
+                Yes = new MessageBoxButtonConfig
+                {
+                    Handler = "App.direct.sendatos(" + idEspecialidad + ")",
+                    Text = "Sí"
+                },
+                No = new MessageBoxButtonConfig
+                {
+                    Text = "No",
+
+                }
+            }).Show();
+
         }
+    }
+
+    [DirectMethod]
+    public void sendatos(string idEspecialidad)
+    {
+        objNegocio.deleteItems(idEspecialidad);
+        SelectRegistros();
+
+    }
+
+    [DirectMethod]
+    public void msgConfirmarModificacion()
+    {
+        if (!txtIdEspecialidad.Text.Equals("") && !cbxServicios.SelectedItem.Value.Equals(""))
+        {
+            X.Msg.Confirm("Confirmar", "¿Desea modificar el registro?", new MessageBoxButtonsConfig
+            {
+                Yes = new MessageBoxButtonConfig
+                {
+                    Handler = "App.direct.getModificarItems()",
+                    Text = "Sí"
+                },
+                No = new MessageBoxButtonConfig
+                {
+                    Text = "No",
+
+                }
+            }).Show();
+        }
+        else
+        {
+            X.Msg.Alert("Error", "Verifique que no hayan campos vacios.").Show();
+        }
+
     }
 
     [DirectMethod]
     public void getModificarItems()
     {
-        //objNegocio.updateItmes(this.txtIdEspecialidad.Text, this.txtNombre.Text);
+        objNegocio.updateItmes(this.txtIdEspecialidad.Text, this.txtNombre.Text, cbxServicios.SelectedItem.Value);
         this.btnGuardar.Hidden = false;
         this.btnUpdate.Hidden = true;
+        limpiandoCampos();
         this.txtNombre.Focus();
-        //SelectRegistros();
+        SelectRegistros();
         X.Msg.Alert("Exito", "Sea actualizado el regitro.").Show();
     }
 
@@ -77,8 +153,19 @@ public partial class Formularios_MattoEspecialidad : System.Web.UI.Page
         Store1.DataBind();
     }
 
-    public void getServicios() {
+    public void getServicios()
+    {
         StoreServicios.DataSource = objNegocioServicio.selectAllItems();
         StoreServicios.DataBind();
     }
+
+    public void limpiandoCampos()
+    {
+        //Limpiando los campos del formulario
+        this.txtNombre.Reset();
+        this.cbxServicios.Reset();
+    }
+
+
+
 }

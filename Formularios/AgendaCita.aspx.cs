@@ -11,12 +11,18 @@ public partial class Vista_Cita : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        clienteAgenda objServicios = new clienteAgenda();
-        this.strServicio.DataSource = objServicios.getAllServicios();
-        this.strServicio.DataBind();
+        if(!IsPostBack)
+        {
+            if (!X.IsAjaxRequest)
+            {
+                clienteAgenda objServicios = new clienteAgenda();
+                this.strServicio.DataSource = objServicios.getAllServicios();
+                this.strServicio.DataBind();
 
-        CalendarPanel1.EventStore.DataSource = objServicios.getColeccionCitas();
-        CalendarPanel1.EventStore.DataBind();
+                CalendarPanel1.EventStore.DataSource = objServicios.getColeccionCitas();
+                CalendarPanel1.EventStore.DataBind();
+            }
+        }
     }
 
     protected void strMedicoRefresh(object sender, StoreReadDataEventArgs e)
@@ -32,8 +38,20 @@ public partial class Vista_Cita : System.Web.UI.Page
         clienteAgenda objCita = new clienteAgenda();
         if (objCita.setInsertClienteCita(data) > 0)
         {
-            this.winRegistroCita.Hide();
             X.Msg.Alert("Exito", "se ha guardado la cita").Show();
         }
+        else
+        {
+            X.Msg.Alert("Mensaje", "No hay disponibiliad en este horario").Show();
+        }
+    }
+
+    [DirectMethod]
+    public void actualizarCalendario()
+    {
+        this.winRegistroCita.Hide();
+        clienteAgenda objServicios = new clienteAgenda();
+        CalendarPanel1.EventStore.DataSource = objServicios.getColeccionCitas();
+        CalendarPanel1.EventStore.DataBind();
     }
 }

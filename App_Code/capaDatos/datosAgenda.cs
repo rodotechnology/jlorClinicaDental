@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 /// <summary>
@@ -79,7 +80,7 @@ public class datosAgenda
         return medicos;
     }
 
-    public Int64 insertCita(Int64 id_medico,DateTime dia_cita,string hora_inicio,string hora_fin,Int64 id_servicio,Int64 id_cliente)
+    public Int64 insertCita(Int64 id_medico, DateTime dia_cita, string hora_inicio, string hora_fin, Int64 id_servicio, Int64 id_cliente)
     {
         Int64 id = 0;
         SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
@@ -133,6 +134,47 @@ public class datosAgenda
                     campos.Add("hora_inicio", mydr["hora_inicio"].ToString());
                     campos.Add("hora_fin", mydr["hora_fin"].ToString());
                     citas.Add(campos);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            //cierre de conexion y lectura
+            if (mydr != null) { mydr.Close(); mydr.Dispose(); cmd.Dispose(); }
+
+            if (conn != null) { conn.Close(); conn.Dispose(); }
+        }
+        //retorna arreglo
+        return citas;
+    }
+
+    public List<string> getEventosRegistrados(DateTime citaIni, DateTime citaFin, Int64 id_medico)
+    {
+        List<string> citas = new List<string>();
+        string ini = String.Format("{0:yyyyMMdd}", citaIni.Date);
+        string fin = String.Format("{0:yyyyMMdd}", citaFin.Date);
+        SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["csJLOR"].ConnectionString);
+        //sentencia que busca todas las citas que esten confirmadas y no confirmadas para el cliente potencial
+        string sql = "select id_cita,CONVERT(varchar, dia_cita, 112) AS dia,REPLACE(CONVERT(char(5),hora_inicio, 108),':','') AS inicio,REPLACE(CONVERT(char(5), hora_fin, 108),':','') AS fin,id_medico from CITA where id_estado_cita in (0,1) and (dia_cita >= @citaIni) AND (dia_cita <= @citaFin) and id_medico=@id_medico";
+        SqlCommand cmd = new SqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@citaIni", ini);
+        cmd.Parameters.AddWithValue("@citaFin", fin);
+        cmd.Parameters.AddWithValue("@id_medico", id_medico);
+        SqlDataReader mydr = null;
+        try
+        {
+            conn.Open();
+            mydr = cmd.ExecuteReader();
+            if (mydr.HasRows)
+            {
+                while (mydr.Read())
+                {
+                    //lectura
+                    citas.Add(String.Format("{0}{1}{2}{3}", mydr["dia"].ToString(), mydr["inicio"].ToString(), mydr["fin"].ToString(), mydr["id_medico"].ToString()));
                 }
             }
         }

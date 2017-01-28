@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="manttoEspecialidad.aspx.cs" Inherits="Formularios_MattoEspecialidad" %>
+
 <%@ Register Assembly="Ext.Net" Namespace="Ext.Net" TagPrefix="ext" %>
 <!DOCTYPE html>
 
@@ -10,7 +11,7 @@
 <body>
 
     <form runat="server">
-        <ext:ResourceManager runat="server" />
+        <ext:ResourceManager ID="ResoruceManager1" runat="server" />
 
         <ext:FormPanel
             runat="server"
@@ -31,7 +32,7 @@
                         <ext:Parameter Name="LabelWidth" Value="115" />
                     </Defaults>
                     <Items>
-                        <ext:TextField ID="txtIdEspecialidad" runat="server" Hidden="true"/>
+                        <ext:TextField ID="txtIdEspecialidad" runat="server" Hidden="true" />
                         <ext:TextField Name="nombre" ID="txtNombre" runat="server" FieldLabel="Nombre" Width="300" />
                         <ext:ComboBox
                             runat="server"
@@ -56,12 +57,12 @@
                             <Buttons>
                                 <ext:Button runat="server" ID="btnGuardar" Text="Guardar">
                                     <Listeners>
-                                        <Click Handler="App.direct.guardar();this.up('form').getForm().reset(); App.direct.SelectRegistros();" />
+                                        <Click Handler="App.direct.mgsConfirmarSave();" />
                                     </Listeners>
                                 </ext:Button>
                                 <ext:Button runat="server" ID="btnUpdate" Text="Modificar" Hidden="true">
                                     <Listeners>
-                                        <Click Handler="" />
+                                        <Click Handler="App.direct.msgConfirmarModificacion();" />
                                     </Listeners>
                                 </ext:Button>
                                 <ext:Button runat="server" Text="Borrar">
@@ -81,7 +82,7 @@
                 <ext:GridPanel
                     runat="server"
                     ColumnWidth="0.6"
-                     Layout="FitLayout">
+                    Layout="FitLayout">
                     <Store>
                         <ext:Store ID="Store1" runat="server">
                             <Model>
