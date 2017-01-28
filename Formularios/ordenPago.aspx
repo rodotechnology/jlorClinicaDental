@@ -46,8 +46,7 @@
         </ext:Store>
         <ext:Viewport ID="ViewPort1" runat="server" Layout="BorderLayout">
             <Items>
-                <ext:GridPanel ID="GridPanel1" runat="server" StoreID="strPagos"
-                    AnchorHorizontal="90%" AnchorVertical="100%" Region="Center">
+                <ext:GridPanel ID="GridPanel1" runat="server" StoreID="strPagos" AnchorHorizontal="90%" AnchorVertical="100%" Region="Center">
                     <TopBar>
                         <ext:Toolbar ID="Toolbar1" runat="server" StyleSpec="padding-bottom:3px;">
                             <Items>
@@ -111,7 +110,7 @@
                 </ext:GridPanel>
             </Items>
         </ext:Viewport>
-        <ext:Window ID="winFactura" runat="server" Title="Factura" Icon="CoinsAdd" Width="500" Height="500" Closable="false" Layout="FitLayout">
+        <ext:Window ID="winFactura" runat="server" Title="Factura" Icon="CoinsAdd" Width="500" Height="520" Closable="false" Layout="FitLayout">
             <Items>
                 <ext:FormPanel runat="server" BodyPadding="5" DefaultAnchor="100%">
                     <Items>
@@ -119,7 +118,7 @@
                         <ext:DateField runat="server" ID="txtFecha" FieldLabel="Fecha" Editable="false" AnchorHorizontal="98%" />
                         <ext:TextField runat="server" ID="txtCliente" FieldLabel="Cliente" Editable="false" AnchorHorizontal="98%" />
                         <ext:TextField runat="server" ID="txtMedico" FieldLabel="Medico" Editable="false" AnchorHorizontal="98%" />
-                        <ext:GridPanel runat="server" ID="grdDetalleFactura" StoreID="strDetalleFactura" AnchorHorizontal="98%" Height="350">
+                        <ext:GridPanel runat="server" ID="grdDetalleFactura" StoreID="strDetalleFactura" AnchorHorizontal="98%" Height="300">
                             <ColumnModel runat="server">
                                 <Columns>
                                     <ext:Column ID="servicio" runat="server" Text="Servicio" DataIndex="servicio" Flex="1" />

@@ -20,5 +20,20 @@ namespace capaNegocios
             datosPago objPagos = new datosPago();
             return objPagos.getPendientesPago();
         }
+
+        public void obtenerFactura(string id_consulta)
+        {
+            datosPago factura = new datosPago(id_consulta);
+
+            /*Hashtable encabezado = factura.getEncabezado();
+            strDetalleFactura.DataSource = factura.getDetalle();
+            strDetalleFactura.DataBind();
+
+            txtCliente.SetText(encabezado["cliente"].ToString());
+            txtMedico.SetText(encabezado["medico"].ToString());
+            txtFecha.SetText(encabezado["fecha"].ToString());*/
+
+
+        }
     }
 }
